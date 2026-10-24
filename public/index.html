@@ -732,10 +732,19 @@ main.osint { padding: 28px 0 60px; }
 </main>
 
 <footer class="band">
-  <div class="wrap">
+  <div class="wrap" data-view="news">
     <p>Les titres et résumés des articles en anglais sont traduits automatiquement en français. « Lire en français » ouvre l'article complet traduit par Google Traduction ; « Source originale » renvoie vers le site de l'éditeur.</p>
     <p>Mise à jour automatique toutes les 30 minutes environ. Sources :</p>
     <div class="src-list" id="sources"></div>
+  </div>
+  <div class="wrap" data-view="osint" hidden>
+    <p>Recherches effectuées via XposedOrNot, LeakCheck et Pwned Passwords (Have I Been Pwned). Aucune adresse ni aucun mot de passe n'est conservé par ce site.</p>
+  </div>
+  <div class="wrap" data-view="tools" hidden>
+    <p>Données fournies par ipapi.is, OpenStreetMap, Google Public DNS, RDAP et les pages de statut officielles de chaque service. Les localisations par IP sont approximatives.</p>
+  </div>
+  <div class="wrap" data-view="map" hidden>
+    <p>Carte fournie par Kaspersky Cybermap. Les autres cartes appartiennent à leurs éditeurs respectifs.</p>
   </div>
 </footer>
 
