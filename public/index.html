@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veille cyber — actus et fuites de données en français</title>
+<meta name="description" content="Les dernières actualités cybersécurité et fuites de données, traduites en français et mises à jour automatiquement.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2315233A'/%3E%3Cpath d='M16 6l8 3v6c0 5-3.4 9.2-8 11-4.6-1.8-8-6-8-11V9z' fill='none' stroke='%23E9EEF4' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='15' r='2.6' fill='%23EE7A5E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #E9EEF4;
+  --sheet: #FFFFFF;
+  --ink: #15233A;
+  --muted: #5A6879;
+  --rule: #D3DBE4;
+  --band: #15233A;
+  --band-ink: #EEF2F7;
+  --band-muted: #A9B6C6;
+  --leak: #B4361E;
+  --vuln: #1F5F8B;
+  --ransom: #6B3FA0;
+  --alert: #946000;
+  --news: #3F6B5A;
+  --focus: #1F5F8B;
+  --shadow: 0 1px 2px rgba(21, 35, 58, .06), 0 8px 24px rgba(21, 35, 58, .07);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0F1620;
+    --sheet: #18222E;
+    --ink: #E3E9EF;
+    --muted: #97A5B4;
+    --rule: #2A3747;
+    --band: #0A1018;
+    --band-ink: #E3E9EF;
+    --band-muted: #8C9AAB;
+    --leak: #EE7A5E;
+    --vuln: #6FAEDB;
+    --ransom: #B593E0;
+    --alert: #E2B04A;
+    --news: #8DB3A3;
+    --focus: #6FAEDB;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Archivo", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+/* Bandeau sombre : en-tête + fuites */
+.band {
+  background:
+    radial-gradient(900px 300px at 85% -10%, color-mix(in srgb, var(--leak) 28%, transparent), transparent 70%),
+    var(--band);
+  color: var(--band-ink);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 16px; padding-bottom: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand b { font-size: 20px; font-weight: 750; font-variation-settings: "wdth" 80; }
+.status { display: flex; align-items: center; gap: 12px; color: var(--band-muted); font-size: 14px; }
+.status button {
+  font: inherit; font-weight: 600; color: var(--band-ink); background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 7px 16px; cursor: pointer;
+}
+.status button:hover { background: rgba(255,255,255,.14); }
+.status button[disabled] { opacity: .5; cursor: progress; }
+
+.leaks { padding: 30px 0 40px; }
+.leaks h1 {
+  margin: 0 0 8px;
+  font-size: clamp(34px, 6vw, 58px);
+  line-height: 1;
+  font-weight: 800;
+  font-variation-settings: "wdth" 66;
+}
+.leaks .lede { margin: 0 0 24px; color: var(--band-muted); max-width: 62ch; }
+.leaks .lede a { color: var(--band-ink); }
+.strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 1fr);
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.breach {
+  scroll-snap-align: start;
+  background: var(--sheet);
+  color: var(--ink);
+  border-radius: 14px;
+  border-top: 5px solid var(--leak);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  padding: 16px 18px 16px;
+  display: flex; flex-direction: column; gap: 6px;
+  min-width: 0;
+}
+.breach .count {
+  font-size: 34px; line-height: 1.05; font-weight: 780;
+  font-variation-settings: "wdth" 70;
+  color: var(--leak);
+  font-variant-numeric: tabular-nums;
+}
+.breach .count small { display: block; font-size: 13px; font-weight: 500; color: var(--muted); font-variation-settings: "wdth" 100; }
+.breach .name { font-weight: 700; font-size: 17px; overflow-wrap: anywhere; }
+.breach .when { font-size: 13px; color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 4px 0 2px; }
+.tags span {
+  font-size: 12.5px; padding: 2px 8px; border-radius: 999px;
+  background: color-mix(in srgb, var(--leak) 11%, var(--sheet));
+  color: color-mix(in srgb, var(--leak) 75%, var(--ink));
+}
+.breach details { font-size: 14px; margin-top: auto; padding-top: 6px; border-top: 1px dashed var(--rule); }
+.breach summary { cursor: pointer; color: var(--muted); font-size: 13.5px; font-weight: 600; }
+.breach details p { font-family: "Literata", Georgia, serif; margin: 8px 0 6px; line-height: 1.55; }
+.breach details a { font-size: 13.5px; font-weight: 600; }
+.strip-empty { padding: 18px; color: var(--band-muted); }
+
+/* Barre de filtres */
+.controls {
+  position: sticky; top: 0; z-index: 5;
+  background: color-mix(in srgb, var(--sheet) 94%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+  box-shadow: 0 2px 10px rgba(21,35,58,.05);
+}
+.controls .wrap { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding-top: 12px; padding-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  --c: var(--ink);
+  font: inherit; font-size: 14px; font-weight: 650; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 13px; border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--c) 30%, transparent);
+  background: color-mix(in srgb, var(--c) 8%, var(--sheet));
+  color: var(--c);
+}
+.chip span { font-weight: 500; opacity: .75; font-variant-numeric: tabular-nums; }
+.ico { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.chip .ico { width: 17px; height: 17px; margin-left: -2px; }
+.chip:hover { border-color: var(--c); }
+.chip[aria-pressed="true"] { background: var(--c); color: var(--sheet); border-color: var(--c); }
+.search { flex: 1 1 220px; display: flex; justify-content: flex-end; }
+.search input {
+  width: 100%; max-width: 300px;
+  font: inherit; font-size: 15px; color: var(--ink);
+  background: var(--bg); border: 1.5px solid var(--rule); border-radius: 999px; padding: 8px 16px;
+}
+.search input:focus { border-color: var(--focus); outline: none; }
+
+/* Fil d'actus */
+main { padding: 8px 0 60px; }
+.day { padding-top: 28px; }
+.day-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; flex-wrap: wrap; }
+.day-head h2 {
+  margin: 0; font-size: 26px; line-height: 1.1; font-weight: 780;
+  font-variation-settings: "wdth" 72;
+}
+.day-head .sub { color: var(--muted); font-size: 15px; }
+.day-head .n {
+  margin-left: auto; font-size: 13px; font-weight: 600; color: var(--muted);
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: 999px; padding: 3px 10px;
+}
+.list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 16px;
+}
+.art {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--c);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 16px 18px 16px;
+  display: flex; flex-direction: column;
+  transition: border-color .15s, transform .15s;
+}
+.art:hover { border-color: color-mix(in srgb, var(--c) 45%, var(--rule)); border-left-color: var(--c); }
+.art .meta { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.badge {
+  font-weight: 700; font-size: 12.5px; color: var(--c);
+  background: color-mix(in srgb, var(--c) 12%, var(--sheet));
+  border-radius: 999px; padding: 3px 10px 3px 4px;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.badge .ico-wrap {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--c); color: var(--sheet);
+  display: inline-grid; place-items: center;
+}
+.badge .ico { width: 13px; height: 13px; stroke-width: 2.4; }
+.art .src { font-weight: 600; color: var(--ink); }
+.art h3 {
+  margin: 10px 0 6px; font-size: 20px; line-height: 1.28; font-weight: 680;
+  font-variation-settings: "wdth" 88;
+}
+.art h3 a { text-decoration: none; }
+.art h3 a:hover { color: var(--c); }
+.art p {
+  margin: 0 0 12px; font-family: "Literata", Georgia, serif; font-size: 15.5px; line-height: 1.62;
+  color: color-mix(in srgb, var(--ink) 88%, var(--muted));
+}
+.art .orig { font-size: 13px; color: var(--muted); margin: -2px 0 10px; font-style: italic; }
+.art .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--rule); }
+.art .links a {
+  font-size: 13.5px; font-weight: 650; text-decoration: none;
+  padding: 6px 12px; border-radius: 8px;
+}
+.art .links a.primary { background: var(--c); color: var(--sheet); }
+.art .links a.primary:hover { filter: brightness(1.1); }
+.art .links a.secondary { color: var(--muted); border: 1px solid var(--rule); }
+.art .links a.secondary:hover { color: var(--ink); border-color: var(--muted); }
+
+.c-fuite { --c: var(--leak); }
+.c-ransomware { --c: var(--ransom); }
+.c-vuln { --c: var(--vuln); }
+.c-alerte { --c: var(--alert); }
+.c-actu { --c: var(--news); }
+
+.state {
+  margin-top: 30px; padding: 50px 20px; text-align: center; color: var(--muted);
+  background: var(--sheet); border: 1px dashed var(--rule); border-radius: 14px;
+}
+.state strong { display: block; color: var(--ink); font-size: 18px; margin-bottom: 6px; }
+
+footer.band { padding: 26px 0 40px; font-size: 13.5px; color: var(--band-muted); }
+footer p { margin: 0 0 6px; max-width: 80ch; }
+.src-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.src-list span { border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 2px 10px; color: var(--band-ink); }
+.src-list .down { text-decoration: line-through; opacity: .6; }
+
+.sk { background: var(--rule); border-radius: 6px; height: 14px; margin: 10px 0; opacity: .7; }
+.sk-card { background: var(--sheet); border-radius: 12px; padding: 18px; border: 1px solid var(--rule); }
+
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Onglets */
+.tabs { display: flex; gap: 4px; background: rgba(255,255,255,.07); border-radius: 999px; padding: 4px; margin-right: auto; margin-left: 18px; }
+.tabs a {
+  text-decoration: none; font-size: 14.5px; font-weight: 650; color: var(--band-muted);
+  padding: 7px 14px; border-radius: 999px; white-space: nowrap;
+}
+.tabs a:hover { color: var(--band-ink); }
+.tabs a[aria-current="page"] { background: var(--band-ink); color: var(--band); }
+
+/* Formulaire de vérification */
+.checker { display: flex; gap: 8px; max-width: 620px; flex-wrap: wrap; }
+.checker input {
+  flex: 1 1 260px; min-width: 0;
+  font: inherit; font-size: 18px; color: var(--ink);
+  background: var(--sheet); border: 2px solid transparent; border-radius: 12px; padding: 13px 16px;
+}
+.checker input:focus { outline: none; border-color: var(--leak); }
+.checker button {
+  font: inherit; font-size: 17px; font-weight: 700; cursor: pointer;
+  background: var(--leak); color: #fff; border: 0; border-radius: 12px; padding: 13px 26px;
+}
+.checker button:hover { filter: brightness(1.08); }
+.checker button[disabled] { opacity: .6; cursor: progress; }
+.checker.light input { border: 1.5px solid var(--rule); font-size: 16px; padding: 10px 14px; background: var(--bg); }
+.checker.light button { font-size: 15px; padding: 10px 20px; background: var(--ink); color: var(--sheet); }
+.fine { font-size: 13.5px; color: var(--band-muted); margin: 12px 0 0; max-width: 70ch; }
+.form-error { color: var(--leak); font-weight: 600; margin-top: 10px; }
+
+main.osint { padding: 28px 0 60px; }
+.panel {
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px;
+  box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 18px;
+}
+.panel h2 { margin: 0 0 6px; font-size: 22px; font-weight: 750; font-variation-settings: "wdth" 80; }
+.panel-intro { margin: 0 0 16px; color: var(--muted); max-width: 75ch; }
+
+/* Résumé du résultat */
+.verdict {
+  border-radius: 14px; padding: 20px 24px; margin-bottom: 18px;
+  display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+  border: 1px solid color-mix(in srgb, var(--v) 35%, var(--rule));
+  background: color-mix(in srgb, var(--v) 9%, var(--sheet));
+  box-shadow: var(--shadow);
+}
+.verdict.bad { --v: var(--leak); }
+.verdict.good { --v: var(--news); }
+.verdict.unknown { --v: var(--alert); }
+.verdict .big {
+  font-size: 46px; line-height: 1; font-weight: 800; color: var(--v);
+  font-variation-settings: "wdth" 66; font-variant-numeric: tabular-nums; min-width: 1.2em;
+}
+.verdict h2 { margin: 0 0 4px; font-size: 21px; }
+.verdict p { margin: 0; color: var(--muted); max-width: 70ch; }
+.verdict .email { color: var(--ink); font-weight: 650; overflow-wrap: anywhere; }
+
+.svc { margin-bottom: 18px; }
+.svc-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.svc-head h3 { margin: 0; font-size: 18px; }
+.pill { font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 3px 10px; }
+.pill.found { background: color-mix(in srgb, var(--leak) 13%, var(--sheet)); color: var(--leak); }
+.pill.clean { background: color-mix(in srgb, var(--news) 15%, var(--sheet)); color: var(--news); }
+.pill.error { background: color-mix(in srgb, var(--alert) 15%, var(--sheet)); color: var(--alert); }
+.svc-head a { margin-left: auto; font-size: 13.5px; color: var(--muted); }
+.svc-note { color: var(--muted); margin: 0; }
+.risk { font-size: 14px; color: var(--muted); margin: -4px 0 12px; }
+.risk b { color: var(--ink); }
+.blist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 10px; }
+.blist li {
+  border: 1px solid var(--rule); border-left: 4px solid var(--leak); border-radius: 10px;
+  padding: 12px 14px; background: var(--sheet);
+}
+.blist .bn { font-weight: 700; font-size: 16px; overflow-wrap: anywhere; }
+.blist .bm { font-size: 13px; color: var(--muted); margin: 2px 0 6px; }
+.blist .tags span { font-size: 12px; }
+.blist .tags span.pw { background: var(--leak); color: #fff; }
+
+.ext { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 10px; }
+.ext a {
+  display: block; height: 100%; text-decoration: none; padding: 14px 16px; border-radius: 10px;
+  border: 1px solid var(--rule); background: var(--bg);
+}
+.ext a:hover { border-color: var(--vuln); }
+.ext b { display: block; color: var(--vuln); font-size: 16px; margin-bottom: 4px; }
+.ext span { font-size: 14px; color: var(--muted); line-height: 1.45; }
+
+#pw-result .verdict { margin: 14px 0 0; padding: 14px 18px; box-shadow: none; }
+#pw-result .verdict .big { font-size: 30px; }
+.tips ol { margin: 6px 0 0; padding-left: 22px; max-width: 80ch; }
+.tips li { margin-bottom: 8px; }
+.spinner { display: inline-block; width: 18px; height: 18px; border: 2.5px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -3px; margin-right: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Outils : carte IP */
+.ipcard {
+  background: var(--sheet); color: var(--ink); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25); border-top: 5px solid var(--vuln);
+  display: grid; grid-template-columns: 1.3fr 1fr; overflow: hidden;
+}
+.ip-main { padding: 22px 24px; min-width: 0; }
+.ip-label { font-size: 14px; color: var(--muted); font-weight: 600; }
+.ipbig {
+  font-size: clamp(30px, 5vw, 46px); font-weight: 800; font-variation-settings: "wdth" 70; line-height: 1.1;
+  color: var(--vuln); overflow-wrap: anywhere; margin: 2px 0 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.copy-btn {
+  font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 999px; padding: 5px 12px;
+  font-variation-settings: "wdth" 100;
+}
+.flags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.flag { font-size: 13px; font-weight: 700; border-radius: 999px; padding: 4px 11px; }
+.flag.ok { background: color-mix(in srgb, var(--news) 14%, var(--sheet)); color: var(--news); }
+.flag.warn { background: color-mix(in srgb, var(--alert) 16%, var(--sheet)); color: var(--alert); }
+.flag.bad { background: color-mix(in srgb, var(--leak) 13%, var(--sheet)); color: var(--leak); }
+.flag.info { background: color-mix(in srgb, var(--vuln) 12%, var(--sheet)); color: var(--vuln); }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; font-size: 15px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.ip-map { position: relative; min-height: 260px; background: var(--bg); }
+.ip-map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ip-map .map-note { position: absolute; left: 10px; bottom: 10px; font-size: 12px; background: var(--sheet); padding: 3px 8px; border-radius: 6px; color: var(--muted); }
+.browser { grid-column: 1 / -1; border-top: 1px solid var(--rule); padding: 18px 24px 20px; background: color-mix(in srgb, var(--bg) 50%, var(--sheet)); }
+.browser h3 { margin: 0 0 10px; font-size: 16px; }
+.browser .kv { grid-template-columns: max-content 1fr max-content 1fr; font-size: 14px; }
+.notes { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.notes li { font-size: 14px; padding: 8px 12px; border-radius: 8px; border-left: 4px solid var(--n); background: color-mix(in srgb, var(--n) 8%, var(--sheet)); }
+.notes .ok { --n: var(--news); } .notes .warn { --n: var(--alert); } .notes .bad { --n: var(--leak); }
+
+/* Outils : panneaux */
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.muted-sm { font-size: 13.5px; color: var(--muted); }
+.status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 8px; }
+.svc-tile {
+  display: flex; gap: 10px; align-items: flex-start; text-decoration: none;
+  padding: 11px 13px; border-radius: 10px; border: 1px solid var(--rule); background: var(--bg);
+}
+.svc-tile:hover { border-color: var(--muted); }
+.svc-tile .dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 5px; flex: none; background: var(--muted); }
+.svc-tile.ok .dot { background: #2E9E5B; }
+.svc-tile.minor .dot { background: #E0A100; }
+.svc-tile.major .dot { background: #D63A1F; }
+.svc-tile b { display: block; font-size: 14.5px; }
+.svc-tile small { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.svc-tile.minor small, .svc-tile.major small { color: var(--ink); }
+
+.tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.tool-grid .panel { margin: 0; }
+.tool.wide { grid-column: 1 / -1; }
+.tool-form { display: flex; gap: 8px; flex-wrap: wrap; }
+.tool-form input, .tool-form select {
+  font: inherit; font-size: 15px; color: var(--ink); background: var(--bg);
+  border: 1.5px solid var(--rule); border-radius: 10px; padding: 9px 12px;
+}
+.tool-form input { flex: 1 1 180px; min-width: 0; }
+.tool-form input:focus, .tool-form select:focus { outline: none; border-color: var(--vuln); }
+.tool-form button, .pw-actions button {
+  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  background: var(--vuln); color: #fff; border: 0; border-radius: 10px; padding: 9px 18px;
+}
+.pw-actions button.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--rule); }
+.tool-out { margin-top: 14px; font-size: 14.5px; }
+.tool-out:empty { display: none; }
+.rtable { width: 100%; border-collapse: collapse; font-size: 14px; }
+.rtable th { text-align: left; font-size: 12.5px; color: var(--muted); font-weight: 600; padding: 4px 8px 6px 0; border-bottom: 1px solid var(--rule); }
+.rtable td { padding: 7px 8px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top; overflow-wrap: anywhere; }
+.rtable td:first-child { font-weight: 700; color: var(--vuln); white-space: nowrap; }
+.rtable tr:last-child td { border-bottom: 0; }
+.err { color: var(--leak); font-weight: 600; margin: 0; }
+.hint { font-size: 13.5px; color: var(--muted); margin: 10px 0 0; }
+.hint.warn { color: var(--alert); font-weight: 600; }
+
+.grade-row { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.grade {
+  width: 58px; height: 58px; border-radius: 14px; display: grid; place-items: center; flex: none;
+  font-size: 32px; font-weight: 800; color: #fff; background: var(--g);
+}
+.g-A { --g: #2E9E5B; } .g-B { --g: #6AA84F; } .g-C { --g: #C9A000; } .g-D { --g: #E08A00; } .g-E { --g: #D9601F; } .g-F { --g: #C0331B; }
+.hlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.hlist li { display: grid; grid-template-columns: 22px 1fr; gap: 2px 8px; font-size: 14px; }
+.hlist .mk { font-weight: 800; }
+.hlist .y .mk { color: #2E9E5B; } .hlist .n .mk { color: var(--leak); }
+.hlist small { grid-column: 2; color: var(--muted); font-size: 13px; }
+
+.pwgen { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+.pw-out {
+  flex: 1 1 300px; min-width: 0; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 19px;
+  background: var(--bg); border: 1.5px solid var(--rule); border-radius: 10px; padding: 10px 14px; overflow-wrap: anywhere; letter-spacing: .02em;
+}
+.pw-actions { display: flex; gap: 8px; }
+.pw-opts { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; margin-top: 14px; font-size: 14.5px; }
+.pw-opts .len { display: flex; align-items: center; gap: 8px; }
+.pw-opts input[type=range] { width: 160px; accent-color: var(--vuln); }
+.pw-opts input[type=checkbox] { accent-color: var(--vuln); width: 16px; height: 16px; vertical-align: -3px; }
+.strength { margin-top: 12px; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
+.strength .bar { flex: 0 0 160px; height: 8px; border-radius: 99px; background: var(--rule); overflow: hidden; }
+.strength .bar i { display: block; height: 100%; background: var(--s); border-radius: 99px; }
+
+@media (max-width: 860px) {
+  .ipcard { grid-template-columns: 1fr; }
+  .ip-map { min-height: 200px; }
+  .browser .kv { grid-template-columns: max-content 1fr; }
+  .tool-grid { grid-template-columns: 1fr; }
+}
+
+/* Carte en direct */
+.live-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--leak);
+  margin-right: 7px; vertical-align: 1px; box-shadow: 0 0 0 0 color-mix(in srgb, var(--leak) 60%, transparent);
+  animation: pulse 1.8s ease-out infinite;
+}
+@keyframes pulse { to { box-shadow: 0 0 0 7px transparent; } }
+.map-hero { padding-bottom: 30px; }
+.map-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.seg { display: inline-flex; background: rgba(255,255,255,.08); border-radius: 999px; padding: 3px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg span { display: block; padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 650; color: var(--band-muted); cursor: pointer; }
+.seg input:checked + span { background: var(--band-ink); color: var(--band); }
+.seg input:focus-visible + span { outline: 2px solid var(--band-ink); outline-offset: 2px; }
+#map-full {
+  font: inherit; font-size: 14px; font-weight: 650; color: var(--band-ink); cursor: pointer;
+  background: transparent; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 7px 16px;
+}
+#map-full:hover { background: rgba(255,255,255,.1); }
+.map-box {
+  position: relative; border-radius: 16px; overflow: hidden; background: #050a12;
+  aspect-ratio: 16 / 9; min-height: 420px; max-height: 78vh; width: 100%;
+  border: 1px solid rgba(255,255,255,.12); box-shadow: 0 20px 50px rgba(0,0,0,.35);
+}
+.map-box:fullscreen { border-radius: 0; max-height: none; aspect-ratio: auto; }
+.map-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.tips ul { margin: 6px 0 0; padding-left: 20px; max-width: 80ch; }
+
+@media (max-width: 760px) {
+  .wrap { padding: 0 16px; }
+  .tabs a { padding: 7px 8px; font-size: 13px; }
+  .map-box { aspect-ratio: 3 / 4; min-height: 0; }
+  .top .wrap { flex-wrap: wrap; }
+  .tabs { order: 3; margin: 0; width: 100%; }
+  .tabs a { flex: 0 0 auto; text-align: center; }
+  .tabs { overflow-x: auto; scrollbar-width: none; border-radius: 14px; }
+  .panel { padding: 18px 16px; }
+  .verdict .big { font-size: 38px; }
+  .status .upd { display: none; }
+  .search { justify-content: stretch; }
+  .search input { max-width: none; }
+  .art h3 { font-size: 18.5px; }
+  .day-head h2 { font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<div class="band">
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="rgba(255,255,255,.1)"/><path d="M16 6l8 3v6c0 5-3.4 9.2-8 11-4.6-1.8-8-6-8-11V9z" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="16" cy="15" r="2.6" fill="var(--leak)"/></svg>
+        <b>Veille cyber</b>
+      </a>
+      <nav class="tabs" aria-label="Sections">
+        <a href="#actus" data-tab="news">Actualités</a>
+        <a href="#verifier" data-tab="osint">Vérifier mon e-mail</a>
+        <a href="#outils" data-tab="tools">Outils</a>
+        <a href="#carte" data-tab="map"><span class="live-dot" aria-hidden="true"></span>Carte en direct</a>
+      </nav>
+      <div class="status" data-view="news">
+        <span class="upd" id="updated">Chargement…</span>
+        <button id="refresh" type="button">Actualiser</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="leaks" data-view="tools" hidden>
+    <div class="wrap">
+      <h1>Ce que les sites savent de vous</h1>
+      <p class="lede">Votre adresse IP, votre localisation approximative et votre fournisseur sont visibles par chaque site que vous visitez. Vérifiez si votre VPN fait bien son travail, puis utilisez les outils plus bas pour enquêter sur un domaine, une IP ou un site.</p>
+      <div class="ipcard" id="ipcard" aria-live="polite">
+        <div class="ip-main"><div class="ip-label">Votre adresse IP publique</div><div class="ipbig"><span class="spinner"></span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="leaks map-hero" data-view="map" hidden>
+    <div class="wrap">
+      <h1>Les cyberattaques dans le monde, en direct</h1>
+      <p class="lede">Chaque trait est une menace détectée à l'instant par les capteurs de Kaspersky sur des millions d'appareils : virus, intrusions réseau, sites piégés, spams malveillants. Cliquez sur un pays pour voir ses statistiques.</p>
+      <div class="map-tools">
+        <div class="seg" role="radiogroup" aria-label="Thème de la carte">
+          <label><input type="radio" name="map-theme" value="dark" checked><span>Sombre</span></label>
+          <label><input type="radio" name="map-theme" value="light"><span>Clair</span></label>
+        </div>
+        <button type="button" id="map-full">Plein écran</button>
+      </div>
+      <div class="map-box" id="map-box">
+        <iframe id="live-map" title="Carte des cybermenaces en temps réel (Kaspersky)" src="about:blank" loading="lazy" allow="fullscreen" referrerpolicy="no-referrer"></iframe>
+      </div>
+      <p class="fine">Carte fournie par <a href="https://cybermap.kaspersky.com/fr" target="_blank" rel="noopener">Kaspersky Cybermap</a>. Si elle reste vide, ouvrez-la directement sur leur site.</p>
+    </div>
+  </section>
+
+  <section class="leaks" data-view="osint" hidden>
+    <div class="wrap">
+      <h1>Mon adresse e-mail a-t-elle fuité ?</h1>
+      <p class="lede">Recherchez votre adresse dans plusieurs bases de fuites de données en une seule fois. Vous saurez sur quels sites elle a été exposée, quelles informations ont été volées avec, et quoi faire ensuite.</p>
+      <form class="checker" id="check-form" novalidate>
+        <label for="email" class="sr">Adresse e-mail</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="vous@exemple.fr" required>
+        <button type="submit" id="check-btn">Vérifier</button>
+      </form>
+      <p class="fine">Votre adresse est transmise à XposedOrNot et LeakCheck uniquement pour cette recherche ; ce site ne la conserve pas. Vérifiez uniquement vos propres adresses.</p>
+    </div>
+  </section>
+
+  <section class="leaks" data-view="news">
+    <div class="wrap">
+      <h1>Fuites de données récentes</h1>
+      <p class="lede">Les dernières bases de données piratées ajoutées à Have I Been Pwned, avec le nombre de comptes touchés et les informations exposées. Vérifiez si votre adresse en fait partie sur <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener">haveibeenpwned.com</a>.</p>
+      <div class="strip" id="strip" aria-live="polite">
+        <div class="strip-empty">Chargement des fuites…</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<nav class="controls" aria-label="Filtrer les articles" data-view="news">
+  <div class="wrap">
+    <div class="chips" id="chips" role="group" aria-label="Catégories"></div>
+    <label class="search">
+      <input id="q" type="search" placeholder="Rechercher (ex. : Microsoft, ransomware…)" aria-label="Rechercher dans les articles">
+    </label>
+  </div>
+</nav>
+
+<main class="osint" data-view="osint" hidden>
+  <div class="wrap">
+    <div id="check-results" aria-live="polite"></div>
+
+    <section class="panel">
+      <h2>Vérifier aussi sur ces services</h2>
+      <p class="panel-intro">Ces sites ne permettent pas la recherche automatique depuis une autre page. Ouvrez-les et saisissez votre adresse : ils couvrent souvent des fuites que les autres n'ont pas.</p>
+      <ul class="ext">
+        <li><a href="https://haveibeenpwned.com/" target="_blank" rel="noopener"><b>Have I Been Pwned</b><span>La référence mondiale, plus de 900 fuites recensées. Permet aussi d'être alerté des prochaines.</span></a></li>
+        <li><a href="https://monitor.mozilla.org/" target="_blank" rel="noopener"><b>Mozilla Monitor</b><span>Par Mozilla (Firefox). Surveillance gratuite de votre adresse avec alertes par e-mail.</span></a></li>
+        <li><a href="https://cybernews.com/personal-data-leak-check/" target="_blank" rel="noopener"><b>Cybernews Leak Checker</b><span>Recherche dans une large base incluant des compilations de fuites récentes.</span></a></li>
+        <li><a href="https://www.avast.com/fr-fr/hackcheck" target="_blank" rel="noopener"><b>Avast Hack Check</b><span>Envoie le résultat par e-mail à l'adresse vérifiée, utile pour confirmer qu'elle vous appartient.</span></a></li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Tester un mot de passe</h2>
+      <p class="panel-intro">Vérifiez si un mot de passe figure dans les fuites connues (base Pwned Passwords). Votre mot de passe ne quitte jamais votre appareil : seuls les 5 premiers caractères de son empreinte chiffrée sont envoyés.</p>
+      <form class="checker light" id="pw-form" novalidate>
+        <label for="pw" class="sr">Mot de passe à tester</label>
+        <input id="pw" type="password" autocomplete="off" placeholder="Mot de passe à tester">
+        <button type="submit">Tester</button>
+      </form>
+      <div id="pw-result" aria-live="polite"></div>
+    </section>
+
+    <section class="panel tips">
+      <h2>Votre adresse a fuité : que faire ?</h2>
+      <ol>
+        <li><b>Changez le mot de passe</b> du site concerné, et partout où vous utilisiez le même.</li>
+        <li><b>Activez la double authentification</b> (code par application ou SMS) sur vos comptes importants : e-mail, banque, réseaux sociaux.</li>
+        <li><b>Utilisez un gestionnaire de mots de passe</b> (Bitwarden, 1Password, celui de votre navigateur) pour avoir un mot de passe différent par site.</li>
+        <li><b>Méfiez-vous des e-mails et SMS</b> qui citent vos informations volées : c'est la base des arnaques par hameçonnage.</li>
+        <li><b>Si des données bancaires ont fuité</b>, prévenez votre banque et surveillez vos relevés.</li>
+      </ol>
+    </section>
+  </div>
+</main>
+
+<main class="osint" data-view="tools" hidden>
+  <div class="wrap">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>État des services en ligne</h2>
+        <span class="muted-sm" id="status-time"></span>
+      </div>
+      <p class="panel-intro">Un site ou une appli ne marche plus ? Vérifiez si le problème vient de chez eux, d'après leurs pages de statut officielles.</p>
+      <div class="status-grid" id="status-grid"><span class="muted-sm"><span class="spinner"></span>Vérification des services…</span></div>
+    </section>
+
+    <div class="tool-grid">
+      <section class="panel tool">
+        <h2>Recherche DNS</h2>
+        <p class="panel-intro">Les enregistrements d'un domaine : adresses IP, serveurs de messagerie, enregistrements de sécurité (SPF, DMARC)…</p>
+        <form class="tool-form" id="dns-form">
+          <input id="dns-q" placeholder="exemple.be" aria-label="Nom de domaine ou adresse IP" autocapitalize="off" spellcheck="false">
+          <select id="dns-type" aria-label="Type d'enregistrement">
+            <option value="ALL">Principaux</option><option>A</option><option>AAAA</option><option>MX</option><option>TXT</option>
+            <option>NS</option><option>CNAME</option><option>SOA</option><option>CAA</option><option value="PTR">PTR (IP → nom)</option>
+          </select>
+          <button type="submit">Chercher</button>
+        </form>
+        <div class="tool-out" id="dns-out"></div>
+      </section>
+
+      <section class="panel tool">
+        <h2>WHOIS d'un domaine ou d'une IP</h2>
+        <p class="panel-intro">Qui a enregistré un domaine, depuis quand, jusqu'à quand. Utile pour repérer un site d'arnaque créé il y a quelques jours.</p>
+        <form class="tool-form" id="whois-form">
+          <input id="whois-q" placeholder="exemple.com ou 8.8.8.8" aria-label="Domaine ou IP" autocapitalize="off" spellcheck="false">
+          <button type="submit">Chercher</button>
+        </form>
+        <div class="tool-out" id="whois-out"></div>
+      </section>
+
+      <section class="panel tool">
+        <h2>Sécurité d'un site</h2>
+        <p class="panel-intro">Vérifie les protections qu'un site active dans le navigateur de ses visiteurs, avec une note de A à F.</p>
+        <form class="tool-form" id="hdr-form">
+          <input id="hdr-q" placeholder="https://exemple.fr" aria-label="Adresse du site" autocapitalize="off" spellcheck="false">
+          <button type="submit">Analyser</button>
+        </form>
+        <div class="tool-out" id="hdr-out"></div>
+      </section>
+
+      <section class="panel tool">
+        <h2>Analyser une adresse IP</h2>
+        <p class="panel-intro">Localisation, fournisseur, et si l'adresse appartient à un VPN, à Tor ou à un hébergeur.</p>
+        <form class="tool-form" id="ip-form">
+          <input id="ip-q" placeholder="185.60.216.35" aria-label="Adresse IP" autocapitalize="off" spellcheck="false" inputmode="decimal">
+          <button type="submit">Analyser</button>
+        </form>
+        <div class="tool-out" id="ip-out"></div>
+      </section>
+
+      <section class="panel tool wide">
+        <h2>Générateur de mots de passe</h2>
+        <p class="panel-intro">Créé directement dans votre navigateur, rien n'est envoyé.</p>
+        <div class="pwgen">
+          <output id="pw-out" class="pw-out"></output>
+          <div class="pw-actions">
+            <button type="button" id="pw-copy">Copier</button>
+            <button type="button" id="pw-new" class="ghost">Nouveau</button>
+          </div>
+        </div>
+        <div class="pw-opts">
+          <label class="len">Longueur <b id="pw-len-val">20</b><input type="range" id="pw-len" min="8" max="64" value="20"></label>
+          <label><input type="checkbox" id="pw-up" checked> Majuscules</label>
+          <label><input type="checkbox" id="pw-low" checked> Minuscules</label>
+          <label><input type="checkbox" id="pw-dig" checked> Chiffres</label>
+          <label><input type="checkbox" id="pw-sym" checked> Symboles</label>
+        </div>
+        <div class="strength" id="pw-strength"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<main class="osint" data-view="map" hidden>
+  <div class="wrap">
+    <section class="panel">
+      <h2>D'autres cartes en temps réel</h2>
+      <p class="panel-intro">Chaque éditeur de sécurité affiche les attaques vues par ses propres capteurs. Comparer plusieurs cartes donne une image plus complète.</p>
+      <ul class="ext">
+        <li><a href="https://threatmap.checkpoint.com/" target="_blank" rel="noopener"><b>Check Point ThreatCloud</b><span>Attaques du jour, pays les plus visés et types de malwares les plus actifs.</span></a></li>
+        <li><a href="https://threatmap.fortiguard.com/" target="_blank" rel="noopener"><b>Fortinet FortiGuard</b><span>Intrusions réseau et exploitations de failles détectées par les pare-feu Fortinet.</span></a></li>
+        <li><a href="https://livethreatmap.radware.com/" target="_blank" rel="noopener"><b>Radware Live Threat Map</b><span>Attaques par déni de service et scans, avec les pays d'origine et de destination.</span></a></li>
+        <li><a href="https://threatmap.bitdefender.com/" target="_blank" rel="noopener"><b>Bitdefender Threat Map</b><span>Infections, attaques et spams en cours, avec un fil des derniers événements.</span></a></li>
+      </ul>
+    </section>
+    <section class="panel tips">
+      <h2>Comment lire ces cartes</h2>
+      <ul>
+        <li><b>Ce ne sont pas toutes les attaques du monde</b>, seulement celles repérées par les capteurs de l'éditeur. Un pays avec beaucoup de clients paraîtra plus « attaqué ».</li>
+        <li><b>L'origine affichée n'est pas forcément l'attaquant</b> : les pirates passent souvent par des serveurs ou des appareils piratés dans d'autres pays.</li>
+        <li><b>L'essentiel du trafic est automatisé</b> : robots qui testent des mots de passe, scans de failles connues, spams. D'où l'importance des mises à jour et de la double authentification.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<main data-view="news">
+  <div class="wrap" id="feed" aria-live="polite">
+    <div class="day"><div class="list">
+      <div class="sk-card"><div class="sk" style="width:35%"></div><div class="sk" style="width:85%;height:20px"></div><div class="sk"></div><div class="sk" style="width:70%"></div></div>
+      <div class="sk-card"><div class="sk" style="width:35%"></div><div class="sk" style="width:85%;height:20px"></div><div class="sk"></div><div class="sk" style="width:70%"></div></div>
+    </div></div>
+  </div>
+</main>
+
+<footer class="band">
+  <div class="wrap">
+    <p>Les titres et résumés des articles en anglais sont traduits automatiquement en français. « Lire en français » ouvre l'article complet traduit par Google Traduction ; « Source originale » renvoie vers le site de l'éditeur.</p>
+    <p>Mise à jour automatique toutes les 30 minutes environ. Sources :</p>
+    <div class="src-list" id="sources"></div>
+  </div>
+</footer>
+
+<script>
+const CATS = {
+  tout:       { label: "Tout" },
+  fuite:      { label: "Fuites de données", short: "Fuite de données" },
+  ransomware: { label: "Rançongiciels", short: "Rançongiciel" },
+  vuln:       { label: "Failles", short: "Faille" },
+  alerte:     { label: "Alertes CERT-FR", short: "Alerte officielle" },
+  actu:       { label: "Autres actus", short: "Actu" },
+};
+const ICONS = {
+  tout: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>',
+  fuite: '<ellipse cx="11" cy="5.5" rx="7" ry="2.5"/><path d="M4 5.5v11c0 1.4 3.1 2.5 7 2.5"/><path d="M18 5.5V10"/><path d="M4 11c0 1.4 3.1 2.5 7 2.5"/><path d="M18.5 13.5s-2.5 2.9-2.5 4.5a2.5 2.5 0 0 0 5 0c0-1.6-2.5-4.5-2.5-4.5z"/>',
+  ransomware: '<rect x="4" y="10.5" width="16" height="10.5" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><circle cx="12" cy="15" r="1.3"/><path d="M12 16.3V18"/>',
+  vuln: '<path d="M8 10a4 4 0 0 1 8 0v5a4 4 0 0 1-8 0z"/><path d="M12 10v9"/><path d="M9.5 6.5 8 4.5M14.5 6.5 16 4.5M4 12h4M16 12h4M4.5 18l3.6-1.5M19.5 18l-3.6-1.5"/>',
+  alerte: '<path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4"/><path d="M12 17h.01"/>',
+  actu: '<path d="M4 5h12.5v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M16.5 9H20v10a2 2 0 0 1-2 2h-3.5"/><path d="M7.5 9h5.5M7.5 13h5.5M7.5 17h3.5"/>',
+};
+const icon = (k) => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k] || ICONS.actu}</svg>`;
+let data = null;
+let current = "tout";
+let query = "";
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const nf = new Intl.NumberFormat("fr-FR");
+const fmtDay = new Intl.DateTimeFormat("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+const fmtShort = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+const fmtTime = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" });
+
+function compact(n) {
+  if (n >= 1e9) return (n / 1e9).toLocaleString("fr-FR", { maximumFractionDigits: 1 }) + " milliard" + (n >= 2e9 ? "s" : "");
+  if (n >= 1e6) return (n / 1e6).toLocaleString("fr-FR", { maximumFractionDigits: 1 }) + " million" + (n >= 2e6 ? "s" : "");
+  return nf.format(n);
+}
+function dayKey(d) { return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(); }
+function dayLabel(d) {
+  const now = new Date();
+  const y = new Date(now); y.setDate(now.getDate() - 1);
+  const full = fmtDay.format(d);
+  if (dayKey(d) === dayKey(now)) return ["Aujourd'hui", full];
+  if (dayKey(d) === dayKey(y)) return ["Hier", full];
+  return [full.charAt(0).toUpperCase() + full.slice(1), ""];
+}
+function ago(iso) {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (m < 1) return "à l'instant";
+  if (m < 60) return `il y a ${m} min`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `il y a ${h} h`;
+  return fmtShort.format(new Date(iso));
+}
+function translateUrl(u) {
+  return "https://translate.google.com/translate?sl=auto&tl=fr&u=" + encodeURIComponent(u);
+}
+
+function renderStrip() {
+  const el = $("#strip");
+  if (!data.breaches?.length) { el.innerHTML = '<div class="strip-empty">Impossible de récupérer les fuites pour le moment.</div>'; return; }
+  el.innerHTML = data.breaches.map((b) => `
+    <article class="breach">
+      <div class="count">${compact(b.count)}<small>comptes exposés</small></div>
+      <div class="name">${esc(b.name)}</div>
+      <div class="when">Fuite du ${fmtShort.format(new Date(b.breachDate))}${b.domain ? ", " + esc(b.domain) : ""}</div>
+      <div class="tags">${b.dataClasses.slice(0, 5).map((c) => `<span>${esc(c)}</span>`).join("")}${b.dataClasses.length > 5 ? `<span>+${b.dataClasses.length - 5}</span>` : ""}</div>
+      <details>
+        <summary>Détails</summary>
+        <p>${esc(b.description)}</p>
+        <a href="${esc(b.link)}" target="_blank" rel="noopener">Voir sur Have I Been Pwned</a>
+      </details>
+    </article>`).join("");
+}
+
+function counts() {
+  const c = { tout: data.items.length };
+  for (const i of data.items) c[i.category] = (c[i.category] || 0) + 1;
+  return c;
+}
+function renderChips() {
+  const c = counts();
+  $("#chips").innerHTML = Object.entries(CATS).map(([k, v]) => `
+    <button class="chip ${k === "tout" ? "" : "c-" + k}" type="button" data-cat="${k}" aria-pressed="${k === current}">
+      ${icon(k)}${v.label} <span>${c[k] || 0}</span>
+    </button>`).join("");
+}
+
+function renderFeed() {
+  const q = query.trim().toLowerCase();
+  const items = data.items.filter((i) =>
+    (current === "tout" || i.category === current) &&
+    (!q || (i.title + " " + i.summary + " " + (i.originalTitle || "") + " " + i.source).toLowerCase().includes(q)));
+  const feed = $("#feed");
+  if (!items.length) {
+    feed.innerHTML = `<div class="state"><strong>Aucun article ne correspond.</strong>Essayez un autre mot-clé ou la catégorie « Tout ».</div>`;
+    return;
+  }
+  const groups = [];
+  for (const i of items) {
+    const d = new Date(i.date);
+    const k = dayKey(d);
+    let g = groups[groups.length - 1];
+    if (!g || g.k !== k) groups.push(g = { k, d, items: [] });
+    g.items.push(i);
+  }
+  feed.innerHTML = groups.map((g) => {
+    const [main, sub] = dayLabel(g.d);
+    const n = g.items.length;
+    return `<section class="day">
+      <div class="day-head"><h2>${main}</h2>${sub ? `<span class="sub">${sub}</span>` : ""}<span class="n">${n} article${n > 1 ? "s" : ""}</span></div>
+      <ul class="list">${g.items.map(article).join("")}</ul>
+    </section>`;
+  }).join("");
+}
+
+function article(i) {
+  const cat = CATS[i.category] || CATS.actu;
+  const isEn = i.lang === "en";
+  return `<li class="art c-${i.category}">
+    <div class="meta"><span class="badge"><span class="ico-wrap">${icon(i.category)}</span>${cat.short}</span><span class="src">${esc(i.source)}</span><time datetime="${i.date}">${fmtTime.format(new Date(i.date))}</time>${isEn && !i.translated ? "<span>non traduit</span>" : ""}</div>
+    <h3><a href="${esc(isEn ? translateUrl(i.link) : i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a></h3>
+    ${i.originalTitle && i.originalTitle !== i.title ? `<div class="orig" lang="en">${esc(i.originalTitle)}</div>` : ""}
+    ${i.summary ? `<p>${esc(i.summary)}</p>` : ""}
+    <div class="links">
+      ${isEn ? `<a class="primary" href="${esc(translateUrl(i.link))}" target="_blank" rel="noopener">Lire en français</a><a class="secondary" href="${esc(i.link)}" target="_blank" rel="noopener">Source originale</a>`
+             : `<a class="primary" href="${esc(i.link)}" target="_blank" rel="noopener">Lire l'article</a>`}
+    </div>
+  </li>`;
+}
+
+function renderMeta() {
+  $("#updated").textContent = "Mis à jour " + ago(data.updatedAt);
+  $("#sources").innerHTML = data.sources.map((s) =>
+    `<span class="${s.ok ? "" : "down"}" title="${s.ok ? s.count + " articles" : "Source indisponible"}">${esc(s.name)}</span>`).join("") +
+    '<span>Have I Been Pwned</span>';
+}
+
+async function load() {
+  const btn = $("#refresh");
+  btn.disabled = true;
+  btn.textContent = "Chargement…";
+  try {
+    const res = await fetch("/api/news");
+    if (!res.ok) throw new Error(res.status);
+    data = await res.json();
+    renderStrip(); renderChips(); renderFeed(); renderMeta();
+  } catch (e) {
+    if (!data) $("#feed").innerHTML = `<div class="state"><strong>Les actualités n'ont pas pu être chargées.</strong>Vérifiez votre connexion, puis cliquez sur « Actualiser ».</div>`;
+    $("#updated").textContent = "Échec du chargement";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Actualiser";
+  }
+}
+
+$("#chips").addEventListener("click", (e) => {
+  const b = e.target.closest(".chip");
+  if (!b) return;
+  current = b.dataset.cat;
+  renderChips(); renderFeed();
+  try { localStorage.setItem("veille-cat", current); } catch {}
+});
+$("#q").addEventListener("input", (e) => { query = e.target.value; renderFeed(); });
+$("#refresh").addEventListener("click", load);
+try { const s = localStorage.getItem("veille-cat"); if (s && CATS[s]) current = s; } catch {}
+setInterval(() => data && renderMeta(), 60000);
+load();
+
+/* ---------- Onglets ---------- */
+const VIEWS = {
+  "#verifier": ["osint", "Vérifier mon e-mail — Veille cyber"],
+  "#carte": ["map", "Carte des cyberattaques en direct — Veille cyber"],
+  "#outils": ["tools", "Outils — Veille cyber"],
+};
+function route() {
+  const [view, title] = VIEWS[location.hash] || ["news", "Veille cyber — actus et fuites de données en français"];
+  document.querySelectorAll("[data-view]").forEach((el) => { el.hidden = el.dataset.view !== view; });
+  document.querySelectorAll(".tabs a").forEach((a) => {
+    if (a.dataset.tab === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  document.title = title;
+  if (view === "map") loadMap();
+  if (view === "tools") loadTools();
+}
+
+/* ---------- Outils ---------- */
+let toolsLoaded = false;
+const api = async (params) => {
+  const res = await fetch("/api/tools?" + new URLSearchParams(params));
+  if (res.status === 429) throw new Error("Trop de requêtes en peu de temps. Patientez une minute.");
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(json.error || "Le service n'a pas répondu.");
+  return json;
+};
+const errBox = (m) => `<p class="err">${esc(m)}</p>`;
+const loading = (m) => `<p class="muted-sm"><span class="spinner"></span>${esc(m)}</p>`;
+
+function flagPills(f, vpnService) {
+  const p = [];
+  if (f.tor) p.push('<span class="flag bad">Réseau Tor</span>');
+  if (f.vpn) p.push(`<span class="flag warn">VPN${vpnService ? " (" + esc(vpnService) + ")" : ""}</span>`);
+  if (f.proxy) p.push('<span class="flag warn">Proxy</span>');
+  if (f.hosting) p.push('<span class="flag info">Hébergeur / datacenter</span>');
+  if (f.mobile) p.push('<span class="flag info">Réseau mobile</span>');
+  if (f.abuser) p.push('<span class="flag bad">Signalée pour abus</span>');
+  if (!p.length) p.push('<span class="flag ok">Connexion directe : aucun VPN ni proxy détecté</span>');
+  return `<div class="flags">${p.join("")}</div>`;
+}
+function place(l) {
+  if (!l) return "Inconnue";
+  return [l.city, l.region, l.country].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(", ") || "Inconnue";
+}
+function ipDetails(d) {
+  return `<dl class="kv">
+    <dt>Localisation</dt><dd>${esc(place(d.location))}</dd>
+    <dt>Fournisseur</dt><dd>${esc(d.isp || "Inconnu")}</dd>
+    ${d.asn ? `<dt>Réseau (ASN)</dt><dd>${esc(d.asn)}${d.asnOrg && d.asnOrg !== d.isp ? " · " + esc(d.asnOrg) : ""}</dd>` : ""}
+    ${d.reverse && d.reverse.length ? `<dt>Nom inverse</dt><dd>${esc(d.reverse[0])}</dd>` : ""}
+    ${d.location && d.location.timezone ? `<dt>Fuseau horaire</dt><dd>${esc(d.location.timezone)}</dd>` : ""}
+    <dt>Version</dt><dd>${esc(d.version)}</dd>
+  </dl>`;
+}
+function osmMap(l) {
+  if (!l || l.latitude == null || l.longitude == null) return `<div class="ip-map"></div>`;
+  const lat = +l.latitude, lon = +l.longitude, dx = 0.35, dy = 0.2;
+  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - dx},${lat - dy},${lon + dx},${lat + dy}&layer=mapnik&marker=${lat},${lon}`;
+  return `<div class="ip-map"><iframe title="Position approximative de l'adresse IP" loading="lazy" src="${src}"></iframe><span class="map-note">Position approximative (ville)</span></div>`;
+}
+
+function browserInfo() {
+  const ua = navigator.userAgent;
+  const browser = /Edg\//.test(ua) ? "Edge" : /OPR\//.test(ua) ? "Opera" : /Firefox\//.test(ua) ? "Firefox" : /Chrome\//.test(ua) ? "Chrome" : /Safari\//.test(ua) ? "Safari" : "Inconnu";
+  const os = /Windows/.test(ua) ? "Windows" : /Android/.test(ua) ? "Android" : /iPhone|iPad/.test(ua) ? "iOS / iPadOS" : /Mac OS X/.test(ua) ? "macOS" : /Linux/.test(ua) ? "Linux" : "Inconnu";
+  return {
+    browser, os,
+    lang: (navigator.languages || [navigator.language]).slice(0, 3).join(", "),
+    tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    screen: `${screen.width} × ${screen.height}`,
+    dnt: navigator.doNotTrack === "1" || window.globalPrivacyControl ? "Activé" : "Désactivé",
+  };
+}
+
+async function webrtcIPs() {
+  if (!window.RTCPeerConnection) return null;
+  const ips = new Set();
+  try {
+    const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+    pc.createDataChannel("x");
+    pc.onicecandidate = (e) => {
+      const c = e.candidate && e.candidate.candidate;
+      if (c && / typ srflx /.test(c)) { const ip = c.split(" ")[4]; if (ip) ips.add(ip); }
+    };
+    await pc.setLocalDescription(await pc.createOffer());
+    await new Promise((r) => setTimeout(r, 2500));
+    pc.close();
+  } catch { return null; }
+  return [...ips];
+}
+
+async function loadTools() {
+  if (toolsLoaded) return;
+  toolsLoaded = true;
+  loadStatus();
+  newPassword();
+  const card = $("#ipcard");
+  try {
+    const d = await api({ action: "ip" });
+    const b = browserInfo();
+    card.innerHTML = `
+      <div class="ip-main">
+        <div class="ip-label">Votre adresse IP publique</div>
+        <div class="ipbig">${esc(d.ip)}<button class="copy-btn" type="button" data-copy="${esc(d.ip)}">Copier</button></div>
+        ${flagPills(d.flags || {}, d.vpnService)}
+        ${ipDetails(d)}
+      </div>
+      ${osmMap(d.location)}
+      <div class="browser">
+        <h3>Ce que révèle votre navigateur</h3>
+        <dl class="kv">
+          <dt>Navigateur</dt><dd>${esc(b.browser)} sur ${esc(b.os)}</dd>
+          <dt>Langues</dt><dd>${esc(b.lang)}</dd>
+          <dt>Fuseau horaire</dt><dd>${esc(b.tz)}</dd>
+          <dt>Écran</dt><dd>${esc(b.screen)}</dd>
+          <dt>Refus du pistage</dt><dd>${esc(b.dnt)}</dd>
+        </dl>
+        <ul class="notes" id="ip-notes"><li class="ok"><span class="spinner"></span>Test de fuite WebRTC en cours…</li></ul>
+      </div>`;
+    const notes = [];
+    const ipTz = d.location && d.location.timezone;
+    if (ipTz && b.tz && ipTz !== b.tz) notes.push(`<li class="warn">Le fuseau horaire de votre appareil (${esc(b.tz)}) ne correspond pas à celui de votre IP (${esc(ipTz)}). C'est typique d'un VPN, et un site peut s'en servir pour le détecter.</li>`);
+    const rtc = await webrtcIPs();
+    if (rtc === null) notes.push('<li class="ok">WebRTC est désactivé ou bloqué : il ne peut pas révéler votre IP.</li>');
+    else if (!rtc.length) notes.push("<li class=\"ok\">WebRTC ne révèle aucune autre adresse IP.</li>");
+    else {
+      const others = rtc.filter((x) => x !== d.ip);
+      notes.push(others.length
+        ? `<li class="bad">Fuite WebRTC : votre navigateur révèle aussi l'adresse ${others.map(esc).join(", ")}. Si vous utilisez un VPN, c'est peut-être votre vraie IP. Activez la protection WebRTC de votre VPN ou de votre navigateur.</li>`
+        : "<li class=\"ok\">Pas de fuite WebRTC : votre navigateur montre la même adresse que celle vue par les sites.</li>");
+    }
+    $("#ip-notes").innerHTML = notes.join("");
+  } catch (e) {
+    card.innerHTML = `<div class="ip-main">${errBox(e.message || "Impossible de récupérer votre adresse IP.")}</div>`;
+  }
+}
+
+async function loadStatus() {
+  const grid = $("#status-grid");
+  try {
+    const res = await fetch("/api/status");
+    const d = await res.json();
+    const order = { major: 0, minor: 1, ok: 2, unknown: 3 };
+    const label = { ok: "Opérationnel", minor: "Perturbations", major: "Panne", unknown: "Voir la page officielle" };
+    grid.innerHTML = d.services.slice().sort((a, b) => order[a.state] - order[b.state] || a.name.localeCompare(b.name)).map((s) => `
+      <a class="svc-tile ${s.state}" href="${esc(s.url)}" target="_blank" rel="noopener">
+        <span class="dot" aria-hidden="true"></span>
+        <span><b>${esc(s.name)}</b><small>${esc(s.state === "ok" || !s.detail ? label[s.state] : s.detail)}</small></span>
+      </a>`).join("");
+    $("#status-time").textContent = "Vérifié à " + fmtTime.format(new Date(d.checkedAt));
+  } catch {
+    grid.innerHTML = errBox("Impossible de vérifier les services pour le moment.");
+  }
+}
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-copy]");
+  if (!b) return;
+  navigator.clipboard?.writeText(b.dataset.copy).then(() => { b.textContent = "Copié"; setTimeout(() => (b.textContent = "Copier"), 1500); });
+});
+
+/* DNS (DNS-over-HTTPS de Google, directement depuis le navigateur) */
+const DNS_TYPES = { 1: "A", 2: "NS", 5: "CNAME", 6: "SOA", 12: "PTR", 15: "MX", 16: "TXT", 28: "AAAA", 257: "CAA" };
+function ptrName(ip) {
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(ip)) return ip.split(".").reverse().join(".") + ".in-addr.arpa";
+  return null;
+}
+async function dnsQuery(name, type) {
+  const r = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(name)}&type=${type}`);
+  const j = await r.json();
+  return { status: j.Status, answers: (j.Answer || []).filter((a) => DNS_TYPES[a.type] === type || type === "CNAME") };
+}
+$("#dns-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const out = $("#dns-out");
+  let q = $("#dns-q").value.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+  let type = $("#dns-type").value;
+  if (!q) { out.innerHTML = errBox("Saisissez un nom de domaine."); return; }
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(q)) { type = "PTR"; $("#dns-type").value = "PTR"; }
+  if (type === "PTR") { const p = ptrName(q); if (!p) { out.innerHTML = errBox("Pour une recherche PTR, saisissez une adresse IPv4."); return; } q = p; }
+  out.innerHTML = loading("Recherche…");
+  try {
+    const types = type === "ALL" ? ["A", "AAAA", "MX", "NS", "TXT", "CNAME"] : [type];
+    const res = await Promise.all(types.map((t) => dnsQuery(q, t).then((r) => ({ t, ...r }))));
+    if (res.every((r) => r.status === 3)) { out.innerHTML = errBox("Ce nom de domaine n'existe pas."); return; }
+    const rows = res.flatMap((r) => r.answers.map((a) => `<tr><td>${esc(DNS_TYPES[a.type] || a.type)}</td><td>${esc(a.data)}</td><td>${a.TTL}s</td></tr>`));
+    const unique = [...new Set(rows)];
+    const txt = res.find((r) => r.t === "TXT");
+    let hint = "";
+    if (txt) {
+      const spf = txt.answers.some((a) => /v=spf1/i.test(a.data));
+      hint = spf ? '<p class="hint">SPF présent : le domaine indique quels serveurs peuvent envoyer ses e-mails.</p>' : '<p class="hint warn">Aucun SPF : n\'importe qui peut plus facilement envoyer des e-mails en se faisant passer pour ce domaine.</p>';
+    }
+    out.innerHTML = unique.length
+      ? `<table class="rtable"><thead><tr><th>Type</th><th>Valeur</th><th>Durée</th></tr></thead><tbody>${unique.join("")}</tbody></table>${hint}`
+      : `<p class="muted-sm">Aucun enregistrement de ce type.</p>${hint}`;
+  } catch {
+    out.innerHTML = errBox("La recherche DNS a échoué. Réessayez.");
+  }
+});
+
+/* WHOIS */
+const fmtDate = (s) => { const d = new Date(s); return isNaN(d) ? "" : d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }); };
+$("#whois-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const out = $("#whois-out");
+  const q = $("#whois-q").value.trim();
+  out.innerHTML = loading("Recherche…");
+  try {
+    const d = await api({ action: "rdap", q });
+    const rows = [];
+    const add = (k, v) => v && rows.push(`<tr><td>${k}</td><td>${v}</td></tr>`);
+    add("Nom", esc(d.name));
+    add("Réseau", esc(d.network));
+    add("Plage d'adresses", esc(d.range));
+    add("Pays", esc(d.country));
+    add("Registrar", esc(d.registrar));
+    add("Titulaire", esc(d.registrant));
+    if (d.created) {
+      const days = Math.floor((Date.now() - new Date(d.created)) / 86400000);
+      add("Créé le", esc(fmtDate(d.created)) + (days < 90 ? ` <span class="flag warn">il y a ${days} jours</span>` : ""));
+    }
+    add("Expire le", esc(fmtDate(d.expires)));
+    add("Modifié le", esc(fmtDate(d.updated)));
+    add("Serveurs DNS", d.nameservers && d.nameservers.map(esc).join("<br>"));
+    add("Statut", d.status && d.status.map(esc).join(", "));
+    if (d.dnssec !== undefined) add("DNSSEC", d.dnssec ? "Activé" : "Désactivé");
+    let hint = "";
+    if (d.created && Date.now() - new Date(d.created) < 90 * 86400000) hint = '<p class="hint warn">Domaine créé il y a moins de 3 mois : prudence s\'il s\'agit d\'une boutique ou d\'un message reçu par e-mail ou SMS.</p>';
+    out.innerHTML = `<table class="rtable"><tbody>${rows.join("")}</tbody></table>${hint}`;
+  } catch (err) {
+    out.innerHTML = errBox(err.message);
+  }
+});
+
+/* En-têtes de sécurité */
+$("#hdr-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const out = $("#hdr-out");
+  out.innerHTML = loading("Analyse du site…");
+  try {
+    const d = await api({ action: "headers", q: $("#hdr-q").value.trim() });
+    out.innerHTML = `
+      <div class="grade-row"><div class="grade g-${d.grade}">${d.grade}</div>
+        <div><b>${esc(new URL(d.url).hostname)}</b><div class="muted-sm">${d.https ? "Connexion chiffrée (HTTPS)" : "Pas de HTTPS : les échanges ne sont pas chiffrés"}${d.server ? ", serveur " + esc(d.server) : ""}</div></div></div>
+      <ul class="hlist">${d.checks.map((c) => `<li class="${c.ok ? "y" : "n"}"><span class="mk">${c.ok ? "✓" : "✕"}</span><span>${esc(c.name)}</span><small>${esc(c.why)}</small></li>`).join("")}</ul>
+      ${d.poweredBy ? `<p class="hint warn">Le site affiche sa technologie (${esc(d.poweredBy)}), ce qui aide les attaquants à cibler des failles connues.</p>` : ""}`;
+  } catch (err) {
+    out.innerHTML = errBox(err.message);
+  }
+});
+
+/* Analyse d'une IP */
+$("#ip-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const out = $("#ip-out");
+  out.innerHTML = loading("Analyse…");
+  try {
+    const d = await api({ action: "ip", q: $("#ip-q").value.trim() });
+    out.innerHTML = flagPills(d.flags || {}, d.vpnService) + ipDetails(d);
+  } catch (err) {
+    out.innerHTML = errBox(err.message);
+  }
+});
+
+/* Générateur de mots de passe */
+const SETS = { up: "ABCDEFGHJKLMNPQRSTUVWXYZ", low: "abcdefghijkmnopqrstuvwxyz", dig: "23456789", sym: "!@#$%&*+-=?_.:;" };
+function randInt(n) { const a = new Uint32Array(1); const lim = Math.floor(0x100000000 / n) * n; do { crypto.getRandomValues(a); } while (a[0] >= lim); return a[0] % n; }
+function newPassword() {
+  const len = +$("#pw-len").value;
+  $("#pw-len-val").textContent = len;
+  const chosen = Object.keys(SETS).filter((k) => $("#pw-" + k).checked);
+  if (!chosen.length) { $("#pw-low").checked = true; chosen.push("low"); }
+  const all = chosen.map((k) => SETS[k]).join("");
+  const chars = chosen.map((k) => SETS[k][randInt(SETS[k].length)]);
+  while (chars.length < len) chars.push(all[randInt(all.length)]);
+  for (let i = chars.length - 1; i > 0; i--) { const j = randInt(i + 1); [chars[i], chars[j]] = [chars[j], chars[i]]; }
+  const pw = chars.join("");
+  $("#pw-out").textContent = pw;
+  const bits = Math.round(len * Math.log2(all.length));
+  const [lbl, col, pct] = bits < 50 ? ["Faible", "var(--leak)", 25] : bits < 70 ? ["Correct", "var(--alert)", 50] : bits < 100 ? ["Solide", "#6AA84F", 75] : ["Très solide", "#2E9E5B", 100];
+  $("#pw-strength").innerHTML = `<span class="bar"><i style="width:${pct}%;--s:${col}"></i></span>${lbl} (${bits} bits d'entropie)`;
+}
+["#pw-len", "#pw-up", "#pw-low", "#pw-dig", "#pw-sym"].forEach((s) => $(s).addEventListener("input", newPassword));
+$("#pw-new").addEventListener("click", newPassword);
+$("#pw-copy").addEventListener("click", (e) => {
+  navigator.clipboard?.writeText($("#pw-out").textContent).then(() => { e.target.textContent = "Copié"; setTimeout(() => (e.target.textContent = "Copier"), 1500); });
+});
+
+/* ---------- Carte en direct (chargée seulement à l'ouverture de l'onglet) ---------- */
+function mapUrl() {
+  const dark = document.querySelector('input[name="map-theme"]:checked')?.value !== "light";
+  return `https://cybermap.kaspersky.com/fr/widget/dynamic/${dark ? "dark" : "light"}`;
+}
+function loadMap() {
+  const frame = $("#live-map");
+  if (!frame.src || frame.src === "about:blank") frame.src = mapUrl();
+}
+document.querySelectorAll('input[name="map-theme"]').forEach((r) =>
+  r.addEventListener("change", () => { $("#live-map").src = mapUrl(); }));
+$("#map-full").addEventListener("click", () => {
+  const box = $("#map-box");
+  if (document.fullscreenElement) document.exitFullscreen();
+  else box.requestFullscreen?.().catch(() => window.open(mapUrl(), "_blank", "noopener"));
+});
+window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
+route();
+
+/* ---------- Vérification d'e-mail ---------- */
+const EMAIL_RE = /^[^\s@<>()"',;:]+@[^\s@<>()"',;:]+\.[a-z]{2,}$/i;
+const fmtRecords = (n) => n ? compact(n) + " comptes" : "";
+
+function serviceBlock(r) {
+  const label = { found: `${r.breaches.length} fuite${r.breaches.length > 1 ? "s" : ""}`, clean: "Rien trouvé", error: "Indisponible" }[r.status];
+  let body = "";
+  if (r.status === "found") {
+    const risk = r.risk ? `<p class="risk">Niveau de risque estimé : <b>${esc({ Low: "faible", Medium: "moyen", High: "élevé" }[r.risk.label] || r.risk.label)}</b>${r.passwords && r.passwords.plain ? ` · ${r.passwords.plain} fuite${r.passwords.plain > 1 ? "s" : ""} avec mot de passe en clair` : ""}</p>` : "";
+    body = risk + `<ul class="blist">${r.breaches.map((b) => `
+      <li>
+        <div class="bn">${esc(b.name)}</div>
+        <div class="bm">${[b.date ? "Fuite de " + esc(b.date) : "", b.domain ? esc(b.domain) : "", fmtRecords(b.records)].filter(Boolean).join(", ")}</div>
+        ${b.data && b.data.length ? `<div class="tags">${b.data.map((d) => `<span class="${/mot de passe|mots de passe/.test(d) ? "pw" : ""}">${esc(d)}</span>`).join("")}</div>` : ""}
+      </li>`).join("")}</ul>`;
+  } else if (r.status === "clean") {
+    body = `<p class="svc-note">Cette adresse n'apparaît dans aucune fuite connue de ce service.</p>`;
+  } else {
+    body = `<p class="svc-note">${esc(r.message || "Le service n'a pas pu être interrogé.")}</p>`;
+  }
+  return `<section class="panel svc">
+    <div class="svc-head"><h3>${esc(r.service)}</h3><span class="pill ${r.status}">${label}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">Voir le service</a></div>
+    ${body}
+  </section>`;
+}
+
+function verdict(email, results) {
+  const names = new Set();
+  results.filter((r) => r.status === "found").forEach((r) => r.breaches.forEach((b) => names.add(b.name.toLowerCase())));
+  const ok = results.filter((r) => r.status !== "error").length;
+  const n = names.size;
+  if (n > 0) return `<div class="verdict bad"><div class="big">${n}</div><div><h2>Adresse exposée dans ${n} fuite${n > 1 ? "s" : ""}</h2><p><span class="email">${esc(email)}</span> apparaît dans des bases de données piratées. Consultez le détail ci-dessous et suivez les conseils en bas de page.</p></div></div>`;
+  if (ok === 0) return `<div class="verdict unknown"><div class="big">?</div><div><h2>Recherche impossible pour le moment</h2><p>Aucun service n'a répondu. Réessayez dans quelques minutes, ou utilisez les liens ci-dessous.</p></div></div>`;
+  return `<div class="verdict good"><div class="big">0</div><div><h2>Aucune fuite trouvée</h2><p><span class="email">${esc(email)}</span> n'apparaît dans aucune fuite connue des services interrogés. Pour être complet, vérifiez aussi sur Have I Been Pwned et Mozilla Monitor ci-dessous.</p></div></div>`;
+}
+
+$("#check-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = $("#email").value.trim();
+  const out = $("#check-results");
+  const btn = $("#check-btn");
+  if (!EMAIL_RE.test(email)) {
+    out.innerHTML = `<div class="verdict unknown"><div class="big">!</div><div><h2>Adresse e-mail invalide</h2><p>Vérifiez l'orthographe, par exemple : prenom.nom@gmail.com</p></div></div>`;
+    $("#email").focus();
+    return;
+  }
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Recherche…';
+  out.innerHTML = `<div class="panel"><span class="spinner"></span>Recherche dans les bases de fuites en cours…</div>`;
+  try {
+    const res = await fetch("/api/check?email=" + encodeURIComponent(email));
+    if (res.status === 429) throw new Error("trop");
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || res.status);
+    out.innerHTML = verdict(email, json.results) + json.results.map(serviceBlock).join("");
+  } catch (err) {
+    const msg = err.message === "trop" ? "Trop de recherches en peu de temps. Patientez une minute puis réessayez." : "La recherche a échoué. Vérifiez votre connexion et réessayez.";
+    out.innerHTML = `<div class="verdict unknown"><div class="big">!</div><div><h2>Recherche interrompue</h2><p>${esc(msg)}</p></div></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Vérifier";
+  }
+});
+
+/* ---------- Test de mot de passe (k-anonymat, rien n'est envoyé en clair) ---------- */
+$("#pw-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const pw = $("#pw").value;
+  const out = $("#pw-result");
+  if (!pw) { out.innerHTML = ""; return; }
+  out.innerHTML = '<p class="svc-note"><span class="spinner"></span>Vérification…</p>';
+  try {
+    const buf = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(pw));
+    const hex = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("").toUpperCase();
+    const res = await fetch("https://api.pwnedpasswords.com/range/" + hex.slice(0, 5), { headers: { "Add-Padding": "true" } });
+    const text = await res.text();
+    const line = text.split("\n").find((l) => l.startsWith(hex.slice(5)));
+    const count = line ? parseInt(line.split(":")[1], 10) : 0;
+    out.innerHTML = count > 0
+      ? `<div class="verdict bad"><div class="big">${compact(count)}</div><div><h2>Ce mot de passe a fuité</h2><p>Il apparaît ${nf.format(count)} fois dans des fuites. Ne l'utilisez plus nulle part.</p></div></div>`
+      : `<div class="verdict good"><div class="big">0</div><div><h2>Mot de passe absent des fuites connues</h2><p>Bonne nouvelle, mais cela ne garantit pas qu'il soit solide : privilégiez une phrase longue et unique par site.</p></div></div>`;
+  } catch {
+    out.innerHTML = `<p class="form-error">Le test n'a pas pu être effectué. Réessayez dans un instant.</p>`;
+  }
+  $("#pw").value = "";
+});
+</script>
+</body>
+</html>
