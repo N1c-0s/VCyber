@@ -136,7 +136,7 @@ server.listen(PORT, HOST, () => {
   log(`VCyber à l'écoute sur http://${HOST}:${PORT}`);
   // Préchauffe : l'accueil ne doit pas attendre la lecture des flux et la traduction
   setTimeout(() => {
-    for (const p of ["/api/news", "/api/status", "/api/kev"]) {
+    for (const p of ["/api/news", "/api/status", "/api/kev", "/api/github"]) {
       const r = routes.get(p);
       if (r) fresh(r, new URL(p, "http://localhost"), "127.0.0.1").catch(() => {});
     }

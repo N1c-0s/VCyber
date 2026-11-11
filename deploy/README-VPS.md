@@ -86,3 +86,13 @@ Ne retire que les éléments de VCyber.
 - Le cache de `/api/news` (30 min) et `/api/status` (2 min) et les limites de requêtes (`/api/tools` 30/min, `/api/check` 10/min par IP) sont gérés par le serveur Node.
 - La position « de votre IP » vient de ipapi.is (Netlify fournissait sa propre géolocalisation) : la ville peut être un peu différente.
 - Les fonctions dans `netlify/functions/` ne sont pas modifiées : le site peut continuer à tourner sur Netlify en parallèle.
+
+## Jeton GitHub (facultatif, page « Nouveautés GitHub »)
+Sans jeton, la page fonctionne avec peu de thèmes (limite GitHub très basse). Avec un jeton **en lecture seule, sans aucun droit** (github.com → Settings → Developer settings → Fine-grained token, accès aux dépôts publics uniquement), elle est complète. Ne jamais coller le jeton dans un chat ni dans git.
+```
+sudo install -m 600 -o root -g root /dev/null /etc/vcyber.env
+sudo nano /etc/vcyber.env                 # une seule ligne : GITHUB_TOKEN=github_pat_xxxxx
+sudo install -m 644 deploy/vcyber.service /etc/systemd/system/vcyber.service
+sudo systemctl daemon-reload && sudo systemctl restart vcyber
+curl -s http://127.0.0.1:8790/api/github | head -c 300     # doit afficher "authenticated":true
+```

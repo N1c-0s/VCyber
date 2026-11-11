@@ -10,6 +10,8 @@ WorkingDirectory=/opt/vcyber
 Environment=NODE_ENV=production
 Environment=HOST=127.0.0.1
 Environment=PORT=8790
+# Jeton GitHub facultatif (lecture seule) : GITHUB_TOKEN=... dans /etc/vcyber.env (root:root, mode 600)
+EnvironmentFile=-/etc/vcyber.env
 # Cache des traductions : /var/lib/vcyber (créé par systemd)
 StateDirectory=vcyber
 ExecStart=/usr/bin/node --max-old-space-size=200 server/server.mjs
