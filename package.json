@@ -2,15 +2,13 @@
   "name": "veille-cyber-fr",
   "private": true,
   "type": "module",
-  "dependencies": {
-    "@netlify/blobs": "^10.0.0",
-    "@netlify/functions": "^4.0.0"
-  },
   "scripts": {
     "build:vps": "esbuild netlify/functions/*.mts --bundle --platform=node --format=esm --target=node20 --alias:@netlify/blobs=./server/blobs-shim.mjs --out-extension:.js=.mjs --outdir=dist/functions",
     "start": "node server/server.mjs"
   },
   "devDependencies": {
+    "@netlify/blobs": "^10.0.0",
+    "@netlify/functions": "^4.0.0",
     "esbuild": "^0.25.0"
   }
 }

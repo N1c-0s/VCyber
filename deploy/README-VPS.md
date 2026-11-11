@@ -33,7 +33,7 @@ sudo useradd --system --no-create-home --shell /usr/sbin/nologin vcyber
 sudo git clone https://github.com/N1c-0s/VCyber /opt/vcyber      # ajouter -b <branche> si besoin
 sudo chown -R nicolas:nicolas /opt/vcyber
 cd /opt/vcyber
-npm ci && npm run build:vps && npm prune --omit=dev
+npm ci --no-audit --no-fund && npm run build:vps && npm prune --omit=dev --no-audit --no-fund
 ```
 
 ## 3. Service systemd

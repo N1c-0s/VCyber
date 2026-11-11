@@ -4,9 +4,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 git pull --ff-only
-npm ci
+npm ci --no-audit --no-fund
 npm run build:vps
-npm prune --omit=dev
+npm prune --omit=dev --no-audit --no-fund
 sudo systemctl restart vcyber
 sleep 2
 systemctl is-active vcyber
