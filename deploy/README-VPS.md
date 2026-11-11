@@ -63,7 +63,7 @@ curl -sI https://n1c0.be | head -5
 curl -s https://n1c0.be/api/status | head -c 200
 systemctl is-active caddy mosquitto partyscan-api vcyber
 ```
-Puis ouvrir https://n1c0.be (actus, vérification e-mail, outils dont le détecteur de texte IA, carte) et vérifier que
+Puis ouvrir https://n1c0.be (actus, vérification e-mail, outils dont le détecteur de texte IA, cartes) et vérifier que
 https://partyscan.app fonctionne toujours (`Net.cred.u` commence par `h-` ou `p-` dans la console).
 Au premier démarrage, la page d'actualités peut mettre jusqu'à une minute à se remplir (lecture des flux + traductions, ensuite en cache).
 

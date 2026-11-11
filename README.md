@@ -5,7 +5,7 @@ Site de veille cybersécurité hébergé sur Netlify :
 - **Actualités** : articles cyber et fuites de données (BleepingComputer, The Hacker News, SecurityWeek, The Record, Krebs, DataBreaches.net, ZATAZ, CERT-FR), traduits en français.
 - **Vérifier mon e-mail** : recherche dans les fuites (XposedOrNot, LeakCheck) et test de mot de passe (Pwned Passwords, k-anonymat).
 - **Outils** : IP publique et détection VPN/proxy/Tor, DNS, WHOIS (RDAP), en-têtes de sécurité, générateur de mots de passe, détecteur de texte IA (100 % local), état des services.
-- **Carte en direct** : carte des cybermenaces Kaspersky.
+- **Cartes en direct** : liens vers les cartes de menaces des éditeurs (Check Point, Fortinet, Radware, Bitdefender).
 
 Structure :
 - `public/index.html` : la page

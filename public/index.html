@@ -496,31 +496,11 @@ main.osint { padding: 28px 0 60px; }
   animation: pulse 1.8s ease-out infinite;
 }
 @keyframes pulse { to { box-shadow: 0 0 0 7px transparent; } }
-.map-hero { padding-bottom: 30px; }
-.map-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-.seg { display: inline-flex; background: rgba(255,255,255,.08); border-radius: 999px; padding: 3px; }
-.seg input { position: absolute; opacity: 0; pointer-events: none; }
-.seg span { display: block; padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 650; color: var(--band-muted); cursor: pointer; }
-.seg input:checked + span { background: var(--band-ink); color: var(--band); }
-.seg input:focus-visible + span { outline: 2px solid var(--band-ink); outline-offset: 2px; }
-#map-full {
-  font: inherit; font-size: 14px; font-weight: 650; color: var(--band-ink); cursor: pointer;
-  background: transparent; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 7px 16px;
-}
-#map-full:hover { background: rgba(255,255,255,.1); }
-.map-box {
-  position: relative; border-radius: 16px; overflow: hidden; background: #050a12;
-  aspect-ratio: 16 / 9; min-height: 420px; max-height: 78vh; width: 100%;
-  border: 1px solid rgba(255,255,255,.12); box-shadow: 0 20px 50px rgba(0,0,0,.35);
-}
-.map-box:fullscreen { border-radius: 0; max-height: none; aspect-ratio: auto; }
-.map-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .tips ul { margin: 6px 0 0; padding-left: 20px; max-width: 80ch; }
 
 @media (max-width: 760px) {
   .wrap { padding: 0 16px; }
   .tabs a { padding: 7px 8px; font-size: 13px; }
-  .map-box { aspect-ratio: 3 / 4; min-height: 0; }
   .top .wrap { flex-wrap: wrap; }
   .tabs { order: 3; margin: 0; width: 100%; }
   .tabs a { flex: 0 0 auto; text-align: center; }
@@ -548,7 +528,7 @@ main.osint { padding: 28px 0 60px; }
         <a href="#actus" data-tab="news">Actualités</a>
         <a href="#verifier" data-tab="osint">Vérifier mon e-mail</a>
         <a href="#outils" data-tab="tools">Outils</a>
-        <a href="#carte" data-tab="map"><span class="live-dot" aria-hidden="true"></span>Carte en direct</a>
+        <a href="#carte" data-tab="map"><span class="live-dot" aria-hidden="true"></span>Cartes en direct</a>
       </nav>
       <div class="status" data-view="news">
         <span class="upd" id="updated">Chargement…</span>
@@ -567,21 +547,10 @@ main.osint { padding: 28px 0 60px; }
     </div>
   </section>
 
-  <section class="leaks map-hero" data-view="map" hidden>
+  <section class="leaks" data-view="map" hidden>
     <div class="wrap">
       <h1>Les cyberattaques dans le monde, en direct</h1>
-      <p class="lede">Chaque trait est une menace détectée à l'instant par les capteurs de Kaspersky sur des millions d'appareils : virus, intrusions réseau, sites piégés, spams malveillants. Cliquez sur un pays pour voir ses statistiques.</p>
-      <div class="map-tools">
-        <div class="seg" role="radiogroup" aria-label="Thème de la carte">
-          <label><input type="radio" name="map-theme" value="dark" checked><span>Sombre</span></label>
-          <label><input type="radio" name="map-theme" value="light"><span>Clair</span></label>
-        </div>
-        <button type="button" id="map-full">Plein écran</button>
-      </div>
-      <div class="map-box" id="map-box">
-        <iframe id="live-map" title="Carte des cybermenaces en temps réel (Kaspersky)" src="about:blank" loading="lazy" allow="fullscreen" referrerpolicy="no-referrer"></iframe>
-      </div>
-      <p class="fine">Carte fournie par <a href="https://cybermap.kaspersky.com/fr" target="_blank" rel="noopener">Kaspersky Cybermap</a>. Si elle reste vide, ouvrez-la directement sur leur site.</p>
+      <p class="lede">Plusieurs éditeurs de sécurité publient une carte des attaques vues par leurs propres capteurs. Elles s'ouvrent sur leurs sites officiels : choisissez-en une ci-dessous.</p>
     </div>
   </section>
 
@@ -764,16 +733,6 @@ main.osint { padding: 28px 0 60px; }
       </section>
 
       <section class="panel tool wide">
-        <h2>Accès à mes PC</h2>
-        <p class="panel-intro">Prenez la main sur vos ordinateurs depuis ce navigateur. La connexion se fait sur le site officiel de chaque service, avec votre propre compte : ce site ne voit ni vos identifiants ni vos sessions.</p>
-        <ul class="ext">
-          <li><a href="https://login.teamviewer.com/" target="_blank" rel="noopener"><b>TeamViewer Web</b><span>Connectez-vous avec votre compte TeamViewer, puis choisissez un appareil dans la liste. Nécessite un abonnement Remote Access ou supérieur.</span></a></li>
-          <li><a href="https://remotedesktop.google.com/access" target="_blank" rel="noopener"><b>Chrome Remote Desktop</b><span>Gratuit. Connectez-vous avec votre compte Google, choisissez un PC et saisissez son code PIN.</span></a></li>
-        </ul>
-        <p class="hint warn">Activez la double authentification sur ces comptes : ce sont eux qui protègent l'accès à vos ordinateurs. Et ne communiquez jamais un code d'accès à quelqu'un qui vous appelle.</p>
-      </section>
-
-      <section class="panel tool wide">
         <h2>Générateur de mots de passe</h2>
         <p class="panel-intro">Créé directement dans votre navigateur, rien n'est envoyé.</p>
         <div class="pwgen">
@@ -841,7 +800,7 @@ main.osint { padding: 28px 0 60px; }
     <p>Données fournies par ipapi.is, OpenStreetMap, Google Public DNS, RDAP et les pages de statut officielles de chaque service. Les localisations par IP sont approximatives.</p>
   </div>
   <div class="wrap" data-view="map" hidden>
-    <p>Carte fournie par Kaspersky Cybermap. Les autres cartes appartiennent à leurs éditeurs respectifs.</p>
+    <p>Les cartes appartiennent à leurs éditeurs respectifs.</p>
   </div>
 </footer>
 
@@ -1014,7 +973,7 @@ load();
 /* ---------- Onglets ---------- */
 const VIEWS = {
   "#verifier": ["osint", "Vérifier mon e-mail — Veille cyber"],
-  "#carte": ["map", "Carte des cyberattaques en direct — Veille cyber"],
+  "#carte": ["map", "Cartes des cyberattaques en direct — Veille cyber"],
   "#outils": ["tools", "Outils — Veille cyber"],
 };
 function route() {
@@ -1024,7 +983,6 @@ function route() {
     if (a.dataset.tab === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
   });
   document.title = title;
-  if (view === "map") loadMap();
   if (view === "tools") loadTools();
 }
 
@@ -1440,22 +1398,6 @@ $("#ai-ex").addEventListener("click", () => {
   $("#ai-t").dispatchEvent(new Event("input"));
 });
 
-/* ---------- Carte en direct (chargée seulement à l'ouverture de l'onglet) ---------- */
-function mapUrl() {
-  const dark = document.querySelector('input[name="map-theme"]:checked')?.value !== "light";
-  return `https://cybermap.kaspersky.com/fr/widget/dynamic/${dark ? "dark" : "light"}`;
-}
-function loadMap() {
-  const frame = $("#live-map");
-  if (!frame.src || frame.src === "about:blank") frame.src = mapUrl();
-}
-document.querySelectorAll('input[name="map-theme"]').forEach((r) =>
-  r.addEventListener("change", () => { $("#live-map").src = mapUrl(); }));
-$("#map-full").addEventListener("click", () => {
-  const box = $("#map-box");
-  if (document.fullscreenElement) document.exitFullscreen();
-  else box.requestFullscreen?.().catch(() => window.open(mapUrl(), "_blank", "noopener"));
-});
 window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
 route();
 
