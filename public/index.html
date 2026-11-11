@@ -503,6 +503,7 @@ main.osint { padding: 28px 0 60px; }
 
 .tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .tool-grid .panel { margin: 0; }
+.tool-grid + .panel { margin-top: 18px; }
 .tool.wide { grid-column: 1 / -1; }
 .tool-form { display: flex; gap: 8px; flex-wrap: wrap; }
 .tool-form input, .tool-form select {
@@ -860,15 +861,6 @@ main.osint { padding: 28px 0 60px; }
 
 <main class="osint" data-view="tools" hidden>
   <div class="wrap">
-    <section class="panel">
-      <div class="panel-head">
-        <h2>État des services en ligne</h2>
-        <span class="muted-sm" id="status-time"></span>
-      </div>
-      <p class="panel-intro">Un site ou une appli ne marche plus ? Vérifiez si le problème vient de chez eux, d'après leurs pages de statut officielles.</p>
-      <div class="status-grid" id="status-grid"><span class="muted-sm"><span class="spinner"></span>Vérification des services…</span></div>
-    </section>
-
     <div class="tool-grid">
       <section class="panel tool">
         <h2>Recherche DNS</h2>
@@ -984,6 +976,15 @@ main.osint { padding: 28px 0 60px; }
         <div class="strength" id="pw-strength"></div>
       </section>
     </div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>État des services en ligne</h2>
+        <span class="muted-sm" id="status-time"></span>
+      </div>
+      <p class="panel-intro">Un site ou une appli ne marche plus ? Vérifiez si le problème vient de chez eux, d'après leurs pages de statut officielles.</p>
+      <div class="status-grid" id="status-grid"><span class="muted-sm"><span class="spinner"></span>Vérification des services…</span></div>
+    </section>
   </div>
 </main>
 
