@@ -1,0 +1,22 @@
+# /etc/caddy/sites/vcyber.caddy  (propriétaire root, mode 644)
+n1c0.be {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=()"
+		-Server
+	}
+
+	reverse_proxy 127.0.0.1:8790 {
+		# L'application s'en sert pour la limite de requêtes et "ma position"
+		header_up X-Real-IP {remote_host}
+	}
+}
+
+www.n1c0.be {
+	redir https://n1c0.be{uri} permanent
+}

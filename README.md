@@ -10,3 +10,4 @@ Site de veille cybersécurité hébergé sur Netlify :
 Structure :
 - `public/index.html` : la page
 - `netlify/functions/` : fonctions serveur (`news`, `check`, `tools`, `status`)
+- `server/` et `deploy/` : hébergement sur VPS (serveur Node, service systemd, config Caddy). Voir `deploy/README-VPS.md`.

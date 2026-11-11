@@ -1,0 +1,31 @@
+[Unit]
+Description=VCyber (veille cyber, n1c0.be)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=vcyber
+Group=vcyber
+WorkingDirectory=/opt/vcyber
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=8790
+# Cache des traductions : /var/lib/vcyber (créé par systemd)
+StateDirectory=vcyber
+ExecStart=/usr/bin/node --max-old-space-size=200 server/server.mjs
+Restart=on-failure
+RestartSec=3
+# Ne pas affamer PartyScan (4 Go de RAM partagés)
+MemoryMax=300M
+# Durcissement
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target
