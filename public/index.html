@@ -445,11 +445,48 @@ main.osint { padding: 28px 0 60px; }
 .strength .bar { flex: 0 0 160px; height: 8px; border-radius: 99px; background: var(--rule); overflow: hidden; }
 .strength .bar i { display: block; height: 100%; background: var(--s); border-radius: 99px; }
 
+/* Détecteur de texte IA */
+.ai-ta {
+  display: block; width: 100%; min-height: 170px; resize: vertical; font: inherit; font-size: 15px; color: var(--ink);
+  background: var(--bg); border: 1.5px solid var(--rule); border-radius: 10px; padding: 12px;
+}
+.ai-ta:focus { outline: none; border-color: var(--vuln); }
+#ai-clt { min-height: 140px; }
+.ai-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
+.ai-btn {
+  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  background: var(--vuln); color: #fff; border: 1.5px solid var(--vuln); border-radius: 10px; padding: 9px 18px;
+}
+.ai-btn.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+.ai-cnt { margin-left: auto; }
+.ai-h { font-size: 15px; margin: 22px 0 8px; }
+.ai-gauge { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 18px 0 4px; }
+.ai-gauge svg { width: 230px; max-width: 80%; }
+.ai-pct { font-size: 44px; font-weight: 800; line-height: 1; margin-top: -52px; font-variant-numeric: tabular-nums; }
+.ai-verdict { font-weight: 700; margin-top: 10px; font-size: 18px; }
+.ai-sig { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 9px 0; border-top: 1px solid var(--rule); font-size: 14px; }
+.ai-sig:first-child { border-top: 0; }
+.ai-sig small { grid-column: 1 / -1; color: var(--muted); font-size: 13px; }
+.ai-sig .v { font-variant-numeric: tabular-nums; color: var(--muted); }
+.ai-sig.on .v { color: var(--leak); font-weight: 700; }
+.ai-out {
+  white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; border: 1.5px solid var(--rule);
+  border-radius: 10px; padding: 12px; max-height: 260px; overflow: auto; background: var(--bg);
+}
+.ai-out mark, .ai-out em {
+  background: color-mix(in srgb, var(--alert) 28%, transparent); color: var(--ink); border-radius: 4px; font-style: normal;
+}
+.ai-out mark { padding: 0 3px; font: 700 11px ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+.ai-opts { display: grid; gap: 6px; font-size: 14.5px; }
+.ai-opts input { accent-color: var(--vuln); width: 16px; height: 16px; vertical-align: -3px; margin-right: 6px; }
+.ai-ba { font-weight: 700; margin: 14px 0 8px; }
+
 @media (max-width: 860px) {
   .ipcard { grid-template-columns: 1fr; }
   .ip-map { min-height: 200px; }
   .browser .kv { grid-template-columns: max-content 1fr; }
   .tool-grid { grid-template-columns: 1fr; }
+  .ai-cnt { margin-left: 0; flex-basis: 100%; }
 }
 
 /* Carte en direct */
@@ -674,6 +711,56 @@ main.osint { padding: 28px 0 60px; }
           <button type="submit">Analyser</button>
         </form>
         <div class="tool-out" id="ip-out"></div>
+      </section>
+
+      <section class="panel tool wide" id="ai-tool">
+        <h2>Détecteur de texte IA</h2>
+        <p class="panel-intro">Colle un texte : l'outil cherche des indices Unicode et stylistiques (caractères invisibles, tirets cadratins, formules toutes faites…) et estime la probabilité qu'il vienne d'une IA. Tout est calculé dans votre navigateur, le texte n'est envoyé nulle part.</p>
+        <textarea id="ai-t" class="ai-ta" placeholder="Colle ton texte ici (minimum ~40 caractères)…" aria-label="Texte à analyser"></textarea>
+        <div class="ai-actions">
+          <button type="button" class="ai-btn" id="ai-go">Analyser</button>
+          <button type="button" class="ai-btn ghost" id="ai-ex">Exemple</button>
+          <button type="button" class="ai-btn ghost" id="ai-clr">Effacer</button>
+          <span class="muted-sm ai-cnt" id="ai-cnt">0 mot</span>
+        </div>
+
+        <div id="ai-res" hidden>
+          <div class="ai-gauge" aria-live="polite">
+            <svg viewBox="0 0 200 110" aria-hidden="true">
+              <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--rule)" stroke-width="16" stroke-linecap="round"/>
+              <path id="ai-arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#2E9E5B" stroke-width="16" stroke-linecap="round" stroke-dasharray="0 252"/>
+            </svg>
+            <div class="ai-pct" id="ai-pct">0 %</div>
+            <div class="ai-verdict" id="ai-vd"></div>
+            <div class="muted-sm" id="ai-hint"></div>
+          </div>
+
+          <h3 class="ai-h">Signaux détectés</h3>
+          <div id="ai-sigs"></div>
+
+          <h3 class="ai-h">Texte annoté</h3>
+          <div class="ai-out" id="ai-out"></div>
+          <p class="hint">Les caractères invisibles ou suspects sont surlignés avec leur nom.</p>
+
+          <h3 class="ai-h">Rendre le texte plus naturel</h3>
+          <div class="ai-opts">
+            <label><input type="checkbox" id="ai-o1" checked> Supprimer les caractères invisibles</label>
+            <label><input type="checkbox" id="ai-o2" checked> Remplacer les espaces spéciales par des espaces normales</label>
+            <label><input type="checkbox" id="ai-o3" checked> Remplacer les tirets cadratins (—) par des virgules</label>
+            <label><input type="checkbox" id="ai-o4" checked> Guillemets droits et « ... » simples</label>
+            <label><input type="checkbox" id="ai-o5" checked> Retirer le markdown (**gras**, # titres)</label>
+            <label><input type="checkbox" id="ai-o6" checked> Remplacer les formules typiques (« en conclusion », « de plus »…)</label>
+          </div>
+          <div class="ai-actions"><button type="button" class="ai-btn" id="ai-cl">Nettoyer le texte</button></div>
+          <div id="ai-clres" hidden>
+            <p class="ai-ba" id="ai-ba"></p>
+            <textarea id="ai-clt" class="ai-ta" readonly aria-label="Texte nettoyé"></textarea>
+            <div class="ai-actions"><button type="button" class="ai-btn ghost" id="ai-cp">Copier le résultat</button><span class="muted-sm" id="ai-cpm"></span></div>
+            <p class="hint">Cela supprime les traces techniques et les tics les plus visibles. Le rythme et le vocabulaire restent ceux du texte d'origine : pour un style vraiment personnel, il faut le réécrire avec tes propres mots.</p>
+          </div>
+        </div>
+
+        <p class="hint warn">Estimation indicative, pas une preuve. Les caractères Unicode cachés peuvent trahir un copier-coller depuis certains outils, mais beaucoup d'IA n'en laissent aucun, et un humain peut en produire (Word, macOS, claviers français). Ne basez aucune décision importante sur ce seul score.</p>
       </section>
 
       <section class="panel tool wide">
@@ -1211,6 +1298,146 @@ function newPassword() {
 $("#pw-new").addEventListener("click", newPassword);
 $("#pw-copy").addEventListener("click", (e) => {
   navigator.clipboard?.writeText($("#pw-out").textContent).then(() => { e.target.textContent = "Copié"; setTimeout(() => (e.target.textContent = "Copier"), 1500); });
+});
+
+/* ---------- Détecteur de texte IA (100 % local) ---------- */
+const AI_HIDDEN = { 0x200B: "ZWSP", 0x200C: "ZWNJ", 0x200D: "ZWJ", 0x2060: "WJ", 0xFEFF: "BOM", 0x00AD: "SHY", 0x180E: "MVS" };
+const AI_SPACES = { 0x00A0: "NBSP", 0x202F: "NNBSP", 0x2009: "THIN", 0x200A: "HAIR", 0x2007: "FIG", 0x2002: "ENSP", 0x2003: "EMSP", 0x3000: "IDSP" };
+const AI_PIC = /\p{Extended_Pictographic}/u;
+/* prev = caractère précédent : les ZWJ / sélecteurs de variation des emoji sont normaux */
+function aiKind(cp, prev) {
+  if (cp === 0x200D) return prev && (AI_PIC.test(prev) || prev === "️") ? null : ["hidden", "ZWJ"];
+  if ((cp >= 0xFE00 && cp <= 0xFE0F) || (cp >= 0xE0100 && cp <= 0xE01EF)) return prev && AI_PIC.test(prev) ? null : ["hidden", "VS"];
+  if (AI_HIDDEN[cp]) return ["hidden", AI_HIDDEN[cp]];
+  if ((cp >= 0x202A && cp <= 0x202E) || (cp >= 0x2066 && cp <= 0x2069) || cp === 0x200E || cp === 0x200F) return ["hidden", "BIDI"];
+  if (cp >= 0xE0000 && cp <= 0xE007F) return ["hidden", "TAG"];
+  if (AI_SPACES[cp]) return ["space", AI_SPACES[cp]];
+  if (cp === 0x2014) return ["dash", "—"];
+  return null;
+}
+const AI_PHRASES = [
+  /\bil est (important|essentiel|crucial|indispensable) de\b/gi, /\ben conclusion\b/gi, /\ben résumé\b/gi, /\bde plus,/gi, /\bpar ailleurs,/gi,
+  /\bil convient de (noter|souligner)\b/gi, /\bdans le paysage\b/gi, /\bn[’']hésitez pas\b/gi, /\bje suis là pour\b/gi, /\ben tant qu[’']ia\b/gi,
+  /\bit is (important|essential|crucial) to\b/gi, /\bin conclusion\b/gi, /\bfurthermore\b|\bmoreover\b/gi, /\bdelve\b|\btapestry\b|\bplays a (crucial|pivotal) role\b/gi,
+  /\bas an ai\b|\bcertainly!/gi, /\bvoici (un|une|quelques|les)\b/gi, /\bplongeons\b|\bexplorons\b/gi, /\bveuillez noter\b/gi,
+];
+
+function aiAnalyse(text) {
+  const nw = (text.match(/[\p{L}\p{N}’']+/gu) || []).length || 1;
+  const counts = { hidden: 0, space: 0, dash: 0 };
+  let html = "", prev = "";
+  for (const ch of text) {
+    const cp = ch.codePointAt(0), k = aiKind(cp, prev);
+    prev = ch;
+    if (k) {
+      counts[k[0]]++;
+      if (k[0] === "dash") html += "<em>" + ch + "</em>";
+      else html += '<mark title="U+' + cp.toString(16).toUpperCase() + '">' + k[1] + "</mark>" + (k[0] === "space" ? " " : "");
+    } else html += esc(ch);
+  }
+  const curly = (text.match(/[‘’“”]/g) || []).length, straight = (text.match(/["']/g) || []).length;
+  const ell = (text.match(/…/g) || []).length;
+  let phr = 0; AI_PHRASES.forEach((r) => { phr += (text.match(r) || []).length; });
+  const md = (text.match(/(\*\*[^*\n]+\*\*)|(^#{1,4}\s)|(^\s*[-*•]\s)|(^\s*\d+\.\s)/gm) || []).length;
+  const emoji = (text.match(/^\s*[\p{Extended_Pictographic}]/gmu) || []).length;
+  const sents = text.split(/(?<=[.!?…])\s+/).map((s) => s.trim().split(/\s+/).length).filter((n) => n > 2);
+  let cv = null;
+  if (sents.length >= 5) {
+    const m = sents.reduce((a, b) => a + b, 0) / sents.length;
+    cv = Math.sqrt(sents.reduce((a, b) => a + (b - m) ** 2, 0) / sents.length) / m;
+  }
+  const dashD = counts.dash / nw * 100;
+
+  const sig = []; let s = 0;
+  const add = (name, desc, val, pts, on) => { s += pts; sig.push({ name, desc, val, pts: Math.round(pts), on }); };
+  const pH = counts.hidden ? Math.min(30 + counts.hidden * 4, 60) : 0;
+  add("Caractères invisibles", "Espaces de largeur nulle, balises, contrôles bidi, sélecteurs de variation.", counts.hidden, pH, counts.hidden > 0);
+  const pS = Math.min(counts.space * 2, 12);
+  add("Espaces insécables / spéciales", "NBSP, espace fine… souvent injectés par certains outils (mais aussi par Word).", counts.space, pS, counts.space > 0);
+  const pD = Math.min(dashD * 6, 20);
+  add("Tirets cadratins (—)", "Densité élevée = style typique des modèles.", counts.dash + " (" + dashD.toFixed(1) + "/100 mots)", pD, pD > 3);
+  const pT = (curly > 3 && straight === 0 ? 4 : 0) + (ell > 0 ? 2 : 0);
+  add("Typographie « soignée »", "Guillemets courbes uniquement, points de suspension …", curly + " courbes / " + ell + " …", pT, pT > 0);
+  const pP = Math.min(phr * 4, 20);
+  add("Formules typiques", "« Il est important de », « en conclusion », « furthermore »…", phr, pP, phr > 0);
+  const pM = Math.min(md * 2 + emoji * 2, 10);
+  add("Mise en forme markdown / emoji", "Gras **, titres #, listes, emoji en début de ligne.", md + emoji, pM, pM > 0);
+  const pB = cv === null ? 0 : cv < 0.3 ? 14 : cv < 0.45 ? 7 : 0;
+  add("Longueur des phrases uniforme", "Les humains alternent phrases courtes et longues.", cv === null ? "trop court" : "écart " + cv.toFixed(2), pB, pB > 0);
+  return { score: Math.max(2, Math.min(98, Math.round(s))), sig, html, nw };
+}
+
+const AI_SUBS = [
+  [/Il est (?:important|essentiel|crucial|indispensable) de (?:noter|souligner|rappeler) que\s+/gi, ""],
+  [/Il convient de (?:noter|souligner) que\s+/gi, ""],
+  [/Il est (?:important|essentiel|crucial|indispensable) de\s+/gi, "Il faut "],
+  [/\bEn conclusion,\s*/g, "Bref, "], [/\bEn résumé,\s*/g, "Bref, "],
+  [/\bDe plus,\s*/g, "Et "], [/\bPar ailleurs,\s*/g, "Sinon, "],
+  [/\bIn conclusion,\s*/g, "So, "], [/\b(?:Furthermore|Moreover),\s*/g, "Also, "],
+  [/\bIt is (?:important|essential|crucial) to note that\s+/gi, ""],
+  [/\bVeuillez noter\b/g, "Note"], [/\bn[’']hésitez pas à\b/gi, "vous pouvez"],
+];
+/* o = { hidden, spaces, dashes, quotes, markdown, phrases } (booleans) */
+function aiClean(t, o) {
+  if (o.phrases) {
+    AI_SUBS.forEach(([r, rep]) => {
+      /* si la phrase supprimée ouvrait une phrase, on remet une majuscule au mot suivant */
+      t = t.replace(r, rep !== "" ? rep : (m, off, str) => (/(?:^|[.!?…]\s*|\n)\s*$/.test(str.slice(0, off)) ? "\u0001" : ""));
+    });
+    t = t.replace(/\u0001([a-zà-ÿ])/g, (m, c) => c.toUpperCase()).replace(/\u0001/g, "");
+  }
+  if (o.hidden) {
+    t = t.replace(/[​‌‎‏‪-‮⁠-⁩﻿­᠎]/g, "")
+      .replace(/(?<![\p{Extended_Pictographic}️])‍/gu, "")
+      .replace(/(?<!\p{Extended_Pictographic})[︀-️]/gu, "")
+      .replace(/[\u{E0000}-\u{E007F}\u{E0100}-\u{E01EF}]/gu, "");
+  }
+  if (o.spaces) t = t.replace(/[  -   　]/g, " ");
+  if (o.dashes) t = t.replace(/\s*—\s*/g, ", ").replace(/,\s*,/g, ",");
+  if (o.quotes) t = t.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/…/g, "...");
+  if (o.markdown) t = t.replace(/\*\*([^*\n]+)\*\*/g, "$1").replace(/^#{1,4}\s+/gm, "");
+  return t.replace(/[ \t]{2,}/g, " ").trim();
+}
+
+const aiWords = (s) => (s.match(/[\p{L}\p{N}’']+/gu) || []).length;
+function aiRender(r) {
+  $("#ai-res").hidden = false;
+  const sc = r.score, col = sc < 30 ? "#2E9E5B" : sc < 60 ? "var(--alert)" : "var(--leak)";
+  $("#ai-arc").setAttribute("stroke", col);
+  $("#ai-arc").setAttribute("stroke-dasharray", (252 * sc / 100) + " 252");
+  $("#ai-pct").textContent = sc + " %";
+  $("#ai-vd").textContent = sc < 25 ? "Probablement écrit par un humain" : sc < 50 ? "Plutôt humain, quelques indices" : sc < 75 ? "Texte suspect : probable usage d'IA" : "Très probablement généré par IA";
+  $("#ai-vd").style.color = col;
+  $("#ai-hint").textContent = "Basé sur " + r.nw + " mots · " + r.sig.filter((x) => x.on).length + " signal(aux) actif(s)";
+  $("#ai-sigs").innerHTML = r.sig.map((x) => `<div class="ai-sig${x.on ? " on" : ""}"><b>${esc(x.name)}</b><span class="v">${esc(x.val)}${x.pts ? " · +" + x.pts : ""}</span><small>${esc(x.desc)}</small></div>`).join("");
+  $("#ai-out").innerHTML = r.html;
+  $("#ai-res").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+const aiOpts = () => ({
+  hidden: $("#ai-o1").checked, spaces: $("#ai-o2").checked, dashes: $("#ai-o3").checked,
+  quotes: $("#ai-o4").checked, markdown: $("#ai-o5").checked, phrases: $("#ai-o6").checked,
+});
+$("#ai-t").addEventListener("input", () => { const n = aiWords($("#ai-t").value); $("#ai-cnt").textContent = n + " mot" + (n > 1 ? "s" : ""); });
+$("#ai-go").addEventListener("click", () => {
+  const v = $("#ai-t").value;
+  if (v.trim().length < 40) { $("#ai-t").placeholder = "Texte trop court : colle au moins 40 caractères."; $("#ai-t").focus(); return; }
+  aiRender(aiAnalyse(v));
+});
+$("#ai-cl").addEventListener("click", () => {
+  const src = $("#ai-t").value, res = aiClean(src, aiOpts());
+  $("#ai-clt").value = res; $("#ai-clres").hidden = false;
+  $("#ai-ba").textContent = "Score IA : " + aiAnalyse(src).score + " % → " + aiAnalyse(res).score + " %";
+});
+$("#ai-cp").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("#ai-clt").value); $("#ai-cpm").textContent = "Copié ✓"; }
+  catch (e) { $("#ai-clt").select(); $("#ai-cpm").textContent = "Sélectionné : faites Copier."; }
+});
+$("#ai-clr").addEventListener("click", () => {
+  $("#ai-t").value = ""; $("#ai-cnt").textContent = "0 mot"; $("#ai-res").hidden = true; $("#ai-clres").hidden = true; $("#ai-t").focus();
+});
+$("#ai-ex").addEventListener("click", () => {
+  $("#ai-t").value = "Il est important de noter que l’intelligence artificielle transforme notre quotidien — et ce, de manière profonde.​ De plus, elle offre de nouvelles opportunités dans de nombreux secteurs. Par ailleurs, il convient de souligner que ses risques doivent être évalués avec soin. En conclusion, l’IA joue un rôle essentiel — à nous de l’encadrer…";
+  $("#ai-t").dispatchEvent(new Event("input"));
 });
 
 /* ---------- Carte en direct (chargée seulement à l'ouverture de l'onglet) ---------- */
